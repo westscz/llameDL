@@ -21,7 +21,7 @@ def remove_descriptions(filename):
     while re.search(reg, filename, re.IGNORECASE):
         X = re.search(reg, filename, re.IGNORECASE)
         filename = filename.replace(X.group(), "")
-    return filename
+    return filename.rstrip(" ")
 
 
 def change_string_to_tags(string):
