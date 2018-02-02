@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/westscz/llameDL/badge.svg?branch=master)](https://coveralls.io/github/westscz/llameDL?branch=master)
+
 **UNDER CONSTRUCTION**
 # llameDL
 
