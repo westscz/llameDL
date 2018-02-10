@@ -1,7 +1,8 @@
-**UNDER CONSTRUCTION**
-# llameDL
+# ![llameDL logo](logo.png) llameDL 
+[![Build Status](https://travis-ci.org/westscz/llameDL.svg?branch=master)](https://travis-ci.org/westscz/llameDL)
+[![Coverage Status](https://coveralls.io/repos/github/westscz/llameDL/badge.svg?branch=master)](https://coveralls.io/github/westscz/llameDL?branch=master)
 
-![llameDL logo](logo.png)
+**UNDER CONSTRUCTION**
 
 YouTube to MP3 converter with adding tags
 
