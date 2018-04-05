@@ -1,3 +1,6 @@
+"""
+
+"""
 import youtube_dl
 from common.utill import create_logger, YTLogger, create_filename
 
@@ -5,6 +8,9 @@ LOGGER = create_logger("YouTube")
 
 
 class IYouTube:
+    """
+    Module to get information about youtube url, and download audio
+    """
     def __init__(self, download_directory):
         self.ydl_opts = {
             'format': 'bestaudio/best',
@@ -22,6 +28,10 @@ class IYouTube:
 
     @property
     def url_info(self):
+        """
+
+        :return:
+        """
         return self.__url_info
 
     @url_info.setter
@@ -68,7 +78,8 @@ class IYouTube:
         video_url = self.__url if not video_url else video_url
         try:
             filename = self.get_title()
-            with youtube_dl.YoutubeDL() as ydl:  ##removed self.ydl_opts
+            # removed self.ydl_opts
+            with youtube_dl.YoutubeDL() as ydl:
                 out_template = r"{}/{}.%(ext)s".format(self.download_directory, filename)
                 LOGGER.debug(out_template)
                 self.ydl_opts['outtmpl'] = out_template
@@ -79,15 +90,15 @@ class IYouTube:
         except youtube_dl.utils.DownloadError:
             return False
 
-
-if __name__ == '__main__':
-    x = IYouTube("/home/jarek")
-    # x.url_info = "https://www.youtube.com/playlist?list=PLx2IkdzDdOapYRpjtKWDGmT-ZSAFUTlFs"
-    # if x.is_playlist():
-    #     for url in x.get_playlist():
-    #         x.url_info = url
-    #         print(x.get_title())
-
-    x.url_info = "https://www.youtube.com/watch?v=xHlpei0Zsa4"
-    print(x.get_title())
-    x.download_mp3()
+#
+# if __name__ == '__main__':
+#     x = IYouTube("/home/jarek")
+#     # x.url_info = "https://www.youtube.com/playlist?list=PLx2IkdzDdOapYRpjtKWDGmT-ZSAFUTlFs"
+#     # if x.is_playlist():
+#     #     for url in x.get_playlist():
+#     #         x.url_info = url
+#     #         print(x.get_title())
+#
+#     x.url_info = "https://www.youtube.com/watch?v=xHlpei0Zsa4"
+#     print(x.get_title())
+#     x.download_mp3()

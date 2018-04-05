@@ -1,0 +1,10 @@
+[
+  "test_ichrome.py::TestIChrome::test__get_folder__exist",
+  "test_ichrome.py::TestIChrome::test__get_folder__not_exist",
+  "test_ichrome.py::TestIChrome::test__get_yt_urls__exist",
+  "test_ichrome.py::TestIChrome::test__get_yt_urls__not_exist",
+  "test_utill.py::Test::test__change_string_to_tags__artist_and_title",
+  "test_utill.py::Test::test__change_string_to_tags__only_title",
+  "test_utill.py::Test::test__remove_descriptions__good_output",
+  "test_utill.py::Test::test__remove_descriptions__output_this_same"
+]

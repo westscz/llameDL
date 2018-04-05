@@ -9,3 +9,4 @@ musicbrainzngs==0.6
 mutagen==1.40.0
 urllib3==1.22
 youtube-dl==2018.3.26.1
+requests

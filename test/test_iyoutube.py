@@ -6,7 +6,7 @@ from llamedl.iyoutube import IYouTube
 class TestIYouTube(unittest.TestCase):
     def setUp(self):
         self.iyt = IYouTube("")
-        info_mock = mock.patch('llamedl.youtube.IYouTube.url_info', new_callable=mock.PropertyMock)
+        info_mock = mock.patch('llamedl.iyoutube.IYouTube.url_info', new_callable=mock.PropertyMock)
         self.info_patch = info_mock.start()
 
     def test__get_title__unknown_artist(self):
