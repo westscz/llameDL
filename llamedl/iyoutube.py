@@ -31,18 +31,40 @@ class IYouTube:
             self.__url_info = ydl.extract_info(video_url, download=False)
 
     def get_title(self):
+        """
+        Get title for video from url given to url_info.
+        Original title will be fixed, and neccessary descriptions will be removed
+
+        :return: Refactored title
+        """
         return create_filename(self.url_info.get("title"))
 
     def is_playlist(self):
+        """
+        Check if url is a playlist
+
+        :return:
+        """
         return False if not self.url_info.get('_type') else True
 
     def get_playlist(self):
+        """
+        Get url of all videos in playlist
+
+        :return: List of urls from playlist
+        """
         try:
             return [entry.get('webpage_url') for entry in self.url_info.get('entries')]
         except TypeError:
             return []
 
     def download_mp3(self, video_url=None):
+        """
+        Download video from youtube and convert to mp3 format
+
+        :param video_url: Url to youtube video
+        :return: filename?
+        """
         video_url = self.__url if not video_url else video_url
         try:
             filename = self.get_title()
@@ -53,9 +75,9 @@ class IYouTube:
                 ydl.params.update(self.ydl_opts)
                 if not ydl.download([video_url]):
                     LOGGER.info('"{}" Downloaded correctly!'.format(filename))
-                return filename
+                return True
         except youtube_dl.utils.DownloadError:
-            return ""
+            return False
 
 
 if __name__ == '__main__':
