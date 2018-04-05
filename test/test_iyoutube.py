@@ -1,6 +1,6 @@
 import unittest
 import mock
-from llamedl.youtube import IYouTube
+from llamedl.iyoutube import IYouTube
 
 
 class TestIYouTube(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestIYouTube(unittest.TestCase):
         ret = self.iyt.get_title()
         self.assertEqual(ret, 'Foo - Bar')
 
-    def test__get_title__neccessary_description(self):
+    def test__get_title__necessary_description(self):
         self.info_patch.return_value = {'title': 'Foo - Bar (video music)'}
         ret = self.iyt.get_title()
         self.assertEqual(ret, 'Foo - Bar')

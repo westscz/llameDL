@@ -68,7 +68,7 @@ class IYouTube:
         video_url = self.__url if not video_url else video_url
         try:
             filename = self.get_title()
-            with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
+            with youtube_dl.YoutubeDL() as ydl:  ##removed self.ydl_opts
                 out_template = r"{}/{}.%(ext)s".format(self.download_directory, filename)
                 LOGGER.debug(out_template)
                 self.ydl_opts['outtmpl'] = out_template
