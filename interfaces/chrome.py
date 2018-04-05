@@ -35,7 +35,6 @@ class IChrome(object):
     def check_if_bookmark_exist(self, json):
         for bookmark in json["roots"]["bookmark_bar"]["children"]:
             if bookmark["name"] == self.bookmark_name:
-                print(bookmark["children"])
                 return bookmark["children"]
         else:
             return None

@@ -17,7 +17,7 @@ def create_logger(logger_name):
 
 
 def remove_descriptions(filename):
-    reg = r"[\[\(].*(ficjal|fficial|yric|adio|ideo|udio|rod).*[\]\)]"
+    reg = r"[\[\(].*(ficjal|fficial|yric|adio|ideo|udio|rod|owo).*[\]\)]"
     while re.search(reg, filename, re.IGNORECASE):
         X = re.search(reg, filename, re.IGNORECASE)
         filename = filename.replace(X.group(), "")
@@ -32,3 +32,42 @@ def change_string_to_tags(string):
         return {'artist': result['artist'], 'title': result['title']}
     else:
         return {'artist': 'Unknown', 'title': string}
+
+
+def create_filename(title):
+    """
+    :param title:
+    :return:
+    """
+    result_title = remove_descriptions(title)
+    result_title = change_string_to_tags(result_title)
+    return " - ".join([result_title['artist'], result_title['title']]).rstrip(" ")
+
+
+class YTLogger(object):
+    """
+    Simple logger for IYouTube purpose
+    """
+    def debug(self, msg):
+        """
+
+        :param msg:
+        :return:
+        """
+        pass
+
+    def warning(self, msg):
+        """
+
+        :param msg:
+        :return:
+        """
+        pass
+    @staticmethod
+    def error(msg):
+        """
+
+        :param msg:
+        :return:
+        """
+        print(msg)
