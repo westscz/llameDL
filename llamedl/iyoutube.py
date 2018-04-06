@@ -37,8 +37,13 @@ class IYouTube:
     @url_info.setter
     def url_info(self, video_url):
         self.__url = video_url
-        with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
-            self.__url_info = ydl.extract_info(video_url, download=False)
+        try:
+            with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
+                self.__url_info = ydl.extract_info(video_url, download=False)
+        except youtube_dl.utils.DownloadError as e:
+            LOGGER.debug(e.exc_info[1])
+            self.__url_info = None
+
 
     def get_title(self):
         """
@@ -75,11 +80,12 @@ class IYouTube:
         :param video_url: Url to youtube video
         :return: filename?
         """
+        if not self.__url_info:
+            return False
         video_url = self.__url if not video_url else video_url
         try:
             filename = self.get_title()
-            # removed self.ydl_opts
-            with youtube_dl.YoutubeDL() as ydl:
+            with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                 out_template = r"{}/{}.%(ext)s".format(self.download_directory, filename)
                 LOGGER.debug(out_template)
                 self.ydl_opts['outtmpl'] = out_template

@@ -17,7 +17,7 @@ def create_logger(logger_name):
 
 
 def remove_descriptions(filename):
-    reg = r"[\[\(].*(ficjal|fficial|yric|adio|ideo|udio|rod|owo).*[\]\)]"
+    reg = r"[\[\(][^\[\(]*(oficjal|official|lyric|radio|video|audio|http|pl)[^\[\(]*[\]\)]"
     while re.search(reg, filename, re.IGNORECASE):
         X = re.search(reg, filename, re.IGNORECASE)
         filename = filename.replace(X.group(), "")
@@ -25,6 +25,7 @@ def remove_descriptions(filename):
 
 
 def change_string_to_tags(string):
+    string = string.replace("/", "")
     reg = r"(?P<artist>.*) [-–] (?P<title>.*)"
     result = re.search(reg, string)
     if result:
