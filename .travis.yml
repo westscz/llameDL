@@ -7,3 +7,4 @@
     - pip install -r requirements-dev.txt
   script:
     - pytest
+    - codecov --token=6b5d0835-8dcf-4847-bc72-d2659d84dc22
