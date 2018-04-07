@@ -5,9 +5,9 @@ from llamedl.ichrome import IChrome
 
 class TestIChrome(unittest.TestCase):
     def setUp(self):
-        self.ich = IChrome()
         bookmarks_mock = mock.patch("llamedl.ichrome.IChrome.bookmarks", new_callable=mock.PropertyMock)
         self.bookmarks_patch = bookmarks_mock.start()
+        self.ich = IChrome()
 
     def test__get_folder__exist(self):
         expected_result = [{}]
