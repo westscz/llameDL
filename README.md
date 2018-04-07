@@ -1,6 +1,6 @@
 # ![llameDL logo](logo.png) llameDL 
 [![Build Status](https://travis-ci.org/westscz/llameDL.svg?branch=master)](https://travis-ci.org/westscz/llameDL)
-[![Coverage Status](https://coveralls.io/repos/github/westscz/llameDL/badge.svg?branch=master)](https://coveralls.io/github/westscz/llameDL?branch=master)
+[![Coverage Status](https://codecov.io/gh/westscz/llameDL/branch/master/graph/badge.svg)](https://codecov.io/gh/westscz/llameDL/branch/master)
 
 **UNDER CONSTRUCTION**
 
