@@ -142,8 +142,7 @@ class Tagger:
 #     x = Tagger()
 #     BAND_LIST = ['Blade Rain', 'Red Hot Chili Peppers', 'Skrillex', 'asdsgfdasdfg',
 #                  'Desiigner', "Taco Hemingway", 'Diplo and Friends', 'Razihel',
-#                  'Bob Acri', 'Mrozu', 'Bracia Figo Fagot', 'Zbigniew Wodecki',
-#                  'Marta Gałuszewska']
+#                  'Bob Acri', 'Mrozu', 'Bracia Figo Fagot', 'Zbigniew Wodecki']
 #
 #     lfm = Tagger()
 #     for x in BAND_LIST:
