@@ -1,4 +1,28 @@
 checks:
-    php:
+    python:
         code_rating: true
-        duplication: true
+        duplicate_code: true
+build:
+    nodes:
+        analysis:
+            project_setup:
+                override:
+                    - 'true'
+            dependencies:
+                before:
+                    - pip install -r requirements-dev.txt
+            tests:
+                override:
+                    - py-scrutinizer-run
+                    -
+                        command: pylint-run
+                        use_website_config: true
+            environment:
+                node:
+                    version: 6.0.0
+        tests: true
+filter:
+    excluded_paths:
+        - '*/test/*'
+    dependency_paths:
+        - 'lib/*'
