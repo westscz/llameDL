@@ -1,5 +1,5 @@
 import unittest
-from common.utill import remove_descriptions, change_string_to_tags
+from llamedl.utill import remove_descriptions, change_string_to_tags
 
 
 class Test(unittest.TestCase):

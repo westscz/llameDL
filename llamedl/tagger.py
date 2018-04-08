@@ -3,11 +3,11 @@
 """
 import musicbrainzngs
 import requests
-from common.utill import create_logger, change_string_to_tags
+from llamedl.utill import create_logger, change_string_to_tags
 from urllib.error import HTTPError
 import time
 from mutagen.easyid3 import EasyID3
-from mutagen.id3 import ID3, APIC
+from mutagen.id3 import ID3
 
 LOGGER = create_logger("Tagger")
 
