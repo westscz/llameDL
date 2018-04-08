@@ -5,9 +5,10 @@ import musicbrainzngs
 import requests
 from llamedl.utill import create_logger, change_string_to_tags
 from urllib.error import HTTPError
+import os
 import time
 from mutagen.easyid3 import EasyID3
-from mutagen.id3 import ID3
+from mutagen.id3 import ID3, APIC
 
 LOGGER = create_logger("Tagger")
 
@@ -38,13 +39,14 @@ class Tagger:
         if artist_name == 'Unknown':
             return []
         tag_list = self.get_tags_from_last_fm(artist_name)
-        tag_list += self.get_tags_from_musicbrainzgs(artist_name)
-        tags_list = set([tag.get('name').title() for tag in tag_list])
+        if not tag_list:
+            tag_list = self.get_tags_from_musicbrainzgs(artist_name)
+        tags_list = [tag.get('name').title() for tag in tag_list]
         if self.whitelist:
             tags_list = self.filter_tags_with_whitelist(tags_list)
         if self.blacklist:
             tags_list = self.filter_tags_with_blacklist(tags_list)
-        LOGGER.debug(tags_list)
+        LOGGER.debug("%s %s" % (artist_name, str(tags_list)))
         return tags_list
 
     def get_tags_from_musicbrainzgs(self, artist_name):
@@ -97,7 +99,7 @@ class Tagger:
         """
         return [tag for tag in tags_list if tag not in self.blacklist]
 
-    def add_tags_to_file(self, filename, folder_path):
+    def add_tags_to_file(self, filename, folder_path, cover):
         """
 
         :param filename:
@@ -106,6 +108,7 @@ class Tagger:
         """
         LOGGER.info("Adding tags to {}".format(filename))
         filepath = "{}/{}.mp3".format(folder_path, filename)
+        print(filepath)
 
         audio = EasyID3(filepath)
         LOGGER.debug(str(audio))
@@ -116,35 +119,26 @@ class Tagger:
         tags.update({'genre': genres, 'date': year, 'album': year, 'albumartist': "VA", 'copyright': 'Jareczeg'})
 
         audio.update(tags)
+        audio.save(v1=2)
+        self.add_cover_art(filepath, '../cover.jpg')
+
+    def main(self, folder_path="/home/jarek/Music/02"):
+        files_list = os.listdir(folder_path)
+        for file in files_list:
+            filename = os.path.splitext(file)[0]
+            self.add_tags_to_file(filename, folder_path)
+
+    def add_cover_art(self, filepath, coverpath):
+        if not coverpath:
+            return False
+        print("Add cover")
+        audio = ID3(filepath)
+        with open(coverpath, 'rb') as albumart:
+            audio['APIC'] = APIC(
+                encoding=3,
+                mime='image/jpeg',
+                type=3, desc=u'Cover',
+                data=albumart.read()
+            )
         audio.save()
-        self.__update_tag_type(filepath)
-
-    def __update_tag_type(self, file_path):
-        """
-
-        :param filepath:
-        :return:
-        """
-        audio = ID3(file_path, v2_version=3)
-        audio.save(v2_version=3)
-
-    # def add_cover_art(self, filepath):
-    #     audio = ID3(filepath, v2_version=3)
-    #     content = None
-    #     with open(self.album_art, 'rb') as albumart:
-    #         content = albumart.read()
-    #     audio.add(APIC(encoding=3, mime="image/jpeg", type=3, desc=u"Cover", data=content))
-    #     audio.save()
-
-#
-#
-# if __name__ == '__main__':
-#     x = Tagger()
-#     BAND_LIST = ['Blade Rain', 'Red Hot Chili Peppers', 'Skrillex', 'asdsgfdasdfg',
-#                  'Desiigner', "Taco Hemingway", 'Diplo and Friends', 'Razihel',
-#                  'Bob Acri', 'Mrozu', 'Bracia Figo Fagot', 'Zbigniew Wodecki']
-#
-#     lfm = Tagger()
-#     for x in BAND_LIST:
-#         result = lfm.get_tags(x)
-#         print(x, result)
+        return True

@@ -58,10 +58,3 @@ class IChrome:
                 url_list.append(url)
         LOGGER.info("I found {} urls".format(len(url_list)))
         return url_list
-
-#
-# if __name__ == '__main__':
-#     x = IChrome()
-#     # print(x.bookmarks)
-#     print(x.get_folder("M"))
-#     print(x.get_yt_urls("M"))

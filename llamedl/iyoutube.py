@@ -95,16 +95,3 @@ class IYouTube:
                 return True
         except youtube_dl.utils.DownloadError:
             return False
-
-#
-# if __name__ == '__main__':
-#     x = IYouTube("/home/jarek")
-#     # x.url_info = "https://www.youtube.com/playlist?list=PLx2IkdzDdOapYRpjtKWDGmT-ZSAFUTlFs"
-#     # if x.is_playlist():
-#     #     for url in x.get_playlist():
-#     #         x.url_info = url
-#     #         print(x.get_title())
-#
-#     x.url_info = "https://www.youtube.com/watch?v=xHlpei0Zsa4"
-#     print(x.get_title())
-#     x.download_mp3()
