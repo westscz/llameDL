@@ -8,6 +8,9 @@ build:
             project_setup:
                 override:
                     - 'true'
+            dependencies:
+                before:
+                    - pip install -r requirements-dev.txt
             tests:
                 override:
                     - py-scrutinizer-run
@@ -17,8 +20,6 @@ build:
             environment:
                 node:
                     version: 6.0.0
-                override:
-                    - "pip install -r requirements-dev.txt"
         tests: true
 filter:
     excluded_paths:
