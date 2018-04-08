@@ -1,12 +1,12 @@
 """
 
 """
+import os
+import time
 import musicbrainzngs
 import requests
 from llamedl.utill import create_logger, change_string_to_tags
 from urllib.error import HTTPError
-import os
-import time
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3, APIC
 
@@ -46,7 +46,7 @@ class Tagger:
             tags_list = self.filter_tags_with_whitelist(tags_list)
         if self.blacklist:
             tags_list = self.filter_tags_with_blacklist(tags_list)
-        LOGGER.debug("%s %s" % (artist_name, str(tags_list)))
+        LOGGER.debug("%s %s", artist_name, str(tags_list))
         return tags_list
 
     def get_tags_from_musicbrainzgs(self, artist_name):
@@ -99,11 +99,12 @@ class Tagger:
         """
         return [tag for tag in tags_list if tag not in self.blacklist]
 
-    def add_tags_to_file(self, filename, folder_path, cover):
+    def add_tags_to_file(self, filename, folder_path, cover='../cover.jpg'):
         """
 
         :param filename:
         :param folder_path:
+        :param cover:
         :return:
         """
         LOGGER.info("Adding tags to {}".format(filename))
@@ -120,15 +121,26 @@ class Tagger:
 
         audio.update(tags)
         audio.save(v1=2)
-        self.add_cover_art(filepath, '../cover.jpg')
+        self.add_cover_art(filepath, cover)
 
     def main(self, folder_path="/home/jarek/Music/02"):
+        """
+        TBD
+        :param folder_path:
+        :return:
+        """
         files_list = os.listdir(folder_path)
         for file in files_list:
             filename = os.path.splitext(file)[0]
             self.add_tags_to_file(filename, folder_path)
 
     def add_cover_art(self, filepath, coverpath):
+        """
+        TBD
+        :param filepath:
+        :param coverpath:
+        :return:
+        """
         if not coverpath:
             return False
         print("Add cover")
