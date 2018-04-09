@@ -11,6 +11,7 @@ from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3, APIC
 
 LOGGER = create_logger("Tagger")
+musicbrainzngs.set_useragent("LLameDL", "0.1", "http://github.com/music")
 
 
 class Tagger:
@@ -24,7 +25,6 @@ class Tagger:
         if whitelist_from_file:
             self.load_whitelist_from_file()
         self.__artist_data = {}
-        musicbrainzngs.set_useragent("LLameDL", "0.1", "http://github.com/music")
 
     def load_whitelist_from_file(self):
         with open("/home/jarek/Projects/LlameDL/common/whitelist.cfg") as f:
@@ -38,18 +38,19 @@ class Tagger:
         """
         if artist_name == 'Unknown':
             return []
-        tag_list = self.get_tags_from_last_fm(artist_name)
+        tag_list = self.get_tags_from_musicbrainzgs(artist_name)
         if not tag_list:
-            tag_list = self.get_tags_from_musicbrainzgs(artist_name)
+            tag_list = self.get_tags_from_last_fm(artist_name)
         tags_list = [tag.get('name').title() for tag in tag_list]
         if self.whitelist:
             tags_list = self.filter_tags_with_whitelist(tags_list)
         if self.blacklist:
             tags_list = self.filter_tags_with_blacklist(tags_list)
         LOGGER.debug("%s %s", artist_name, str(tags_list))
-        return tags_list
+        return tags_list.sort()
 
-    def get_tags_from_musicbrainzgs(self, artist_name):
+    @staticmethod
+    def get_tags_from_musicbrainzgs(artist_name):
         """
         Get tags for artist_name from musicbrainzgs
         :param artist_name:
@@ -65,7 +66,8 @@ class Tagger:
             pass
         return []
 
-    def get_tags_from_last_fm(self, artist_name):
+    @staticmethod
+    def get_tags_from_last_fm(artist_name):
         """
         Get tags for artist_name from last_fm
         :param artist_name:
@@ -99,7 +101,7 @@ class Tagger:
         """
         return [tag for tag in tags_list if tag not in self.blacklist]
 
-    def add_tags_to_file(self, filename, folder_path, cover='../cover.jpg'):
+    def add_tags_to_file(self, filename, folder_path, cover=None):
         """
 
         :param filename:
@@ -107,9 +109,9 @@ class Tagger:
         :param cover:
         :return:
         """
+        filename_suffix = 'mp3'
         LOGGER.info("Adding tags to {}".format(filename))
-        filepath = "{}/{}.mp3".format(folder_path, filename)
-        print(filepath)
+        filepath = os.path.join(folder_path, filename + '.' + filename_suffix)
 
         audio = EasyID3(filepath)
         LOGGER.debug(str(audio))
@@ -121,18 +123,8 @@ class Tagger:
 
         audio.update(tags)
         audio.save(v1=2)
-        self.add_cover_art(filepath, cover)
-
-    def main(self, folder_path="/home/jarek/Music/02"):
-        """
-        TBD
-        :param folder_path:
-        :return:
-        """
-        files_list = os.listdir(folder_path)
-        for file in files_list:
-            filename = os.path.splitext(file)[0]
-            self.add_tags_to_file(filename, folder_path)
+        if cover:
+            self.add_cover_art(filepath, cover)
 
     def add_cover_art(self, filepath, coverpath):
         """
@@ -154,3 +146,14 @@ class Tagger:
             )
         audio.save()
         return True
+
+    def main(self, folder_path="/home/jarek/Music/04"):
+        """
+        TBD
+        :param folder_path:
+        :return:
+        """
+        files_list = os.listdir(folder_path)
+        for file in files_list:
+            filename = os.path.splitext(file)[0]
+            self.add_tags_to_file(filename, folder_path)

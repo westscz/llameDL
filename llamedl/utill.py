@@ -29,8 +29,8 @@ def create_filename(title):
 def remove_descriptions(filename):
     reg = r"[\[\(][^\[\(]*(oficjal|official|lyric|radio|video|audio|http|pl|hd)[^\[\(]*[\]\)]"
     while re.search(reg, filename, re.IGNORECASE):
-        X = re.search(reg, filename, re.IGNORECASE)
-        filename = filename.replace(X.group(), "")
+        result = re.search(reg, filename, re.IGNORECASE)
+        filename = filename.replace(result.group(), "")
     return filename.rstrip(" ")
 
 
@@ -39,10 +39,14 @@ def change_string_to_tags(string):
     reg = r"(?P<artist>.*) [--–] (?P<title>.*)"
     result = re.search(reg, string)
     if result:
-        result = result.groupdict()
-        return {'artist': result['artist'], 'title': result['title']}
+        artist, title = result.groups()
+        return {'artist': capitalize_first_char(artist), 'title': capitalize_first_char(title)}
     else:
-        return {'artist': 'Unknown', 'title': string}
+        return {'artist': 'Unknown', 'title': capitalize_first_char(string)}
+
+
+def capitalize_first_char(string):
+    return string[:1].upper()+string[1:]
 
 
 class YTLogger:
@@ -64,11 +68,11 @@ class YTLogger:
         :return:
         """
         pass
-    @staticmethod
-    def error(msg):
+
+    def error(self, msg):
         """
 
         :param msg:
         :return:
         """
-        print(msg)
+        pass
