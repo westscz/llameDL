@@ -40,8 +40,8 @@ class IYouTube:
         try:
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                 self.__url_info = ydl.extract_info(video_url, download=False)
-        except youtube_dl.utils.DownloadError as e:
-            LOGGER.debug(e.exc_info[1])
+        except youtube_dl.utils.DownloadError as error:
+            LOGGER.debug(error.exc_info[1])
             self.__url_info = None
 
 
@@ -88,7 +88,7 @@ class IYouTube:
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                 self.__update_ydl_template(ydl, filename)
                 if not ydl.download([video_url]):
-                    LOGGER.info('"%s" Downloaded correctly!' % filename)
+                    LOGGER.info('"%s" Downloaded correctly!', filename)
                 return True
         except youtube_dl.utils.DownloadError:
             return False
