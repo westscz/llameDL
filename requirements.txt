@@ -8,5 +8,5 @@ lxml==4.2.1
 musicbrainzngs==0.6
 mutagen==1.40.0
 urllib3==1.22
-youtube-dl==2018.4.3
+youtube-dl==2018.4.9
 requests==2.18.4
