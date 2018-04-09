@@ -1,6 +1,9 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
-
+"""
+    llamedl.utill.py
+    ~~~~~~~~~~~~~~~~~~~
+"""
 import re
 import logging
 
@@ -8,44 +11,60 @@ import logging
 def create_logger(logger_name):
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
     return logger
 
 
-def create_filename(title):
+def create_filename(string):
     """
-    :param title:
+    Get string and return fixed string.
+    String should be in format 'artist - title'
+    :param string:
     :return:
     """
-    result_title = remove_descriptions(title)
+    result_title = remove_descriptions(string)
     result_title = change_string_to_tags(result_title)
     return " - ".join([result_title['artist'], result_title['title']]).rstrip(" ")
 
 
-def remove_descriptions(filename):
+def remove_descriptions(string):
+    """
+    Get string and remove all regex matches
+    :param string:
+    :return:
+    """
     reg = r"[\[\(][^\[\(]*(oficjal|official|lyric|radio|video|audio|http|pl|hd)[^\[\(]*[\]\)]"
-    while re.search(reg, filename, re.IGNORECASE):
-        result = re.search(reg, filename, re.IGNORECASE)
-        filename = filename.replace(result.group(), "")
-    return filename.rstrip(" ")
+    while re.search(reg, string, re.IGNORECASE):
+        result = re.search(reg, string, re.IGNORECASE)
+        string = string.replace(result.group(), "")
+    return string.rstrip(" ")
 
 
 def change_string_to_tags(string):
+    """
+    Get string in format 'artist - title' and returns dictionary with 'artist' and 'title' as keys
+    :param string:
+    :return:
+    """
     string = string.replace("/", "")
     reg = r"(?P<artist>.*) [--–] (?P<title>.*)"
     result = re.search(reg, string)
     if result:
         artist, title = result.groups()
         return {'artist': capitalize_first_char(artist), 'title': capitalize_first_char(title)}
-    else:
-        return {'artist': 'Unknown', 'title': capitalize_first_char(string)}
+    return {'artist': 'Unknown', 'title': capitalize_first_char(string)}
 
 
 def capitalize_first_char(string):
+    """
+    Get string and capitalize first char
+    :param string:
+    :return:
+    """
     return string[:1].upper()+string[1:]
 
 

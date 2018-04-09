@@ -1,3 +1,7 @@
+"""
+    llamedl.LLameDL.py
+    ~~~~~~~~~~~~~~~~~~~
+"""
 from llamedl.ichrome import IChrome
 from llamedl.iyoutube import IYouTube
 from llamedl.tagger import Tagger

@@ -1,5 +1,6 @@
 """
-
+llamedl.ichrome.py
+=========
 """
 import os
 import json
@@ -56,5 +57,5 @@ class IChrome:
             url = kid.get("url", "")
             if 'youtube' in url:
                 url_list.append(url)
-        LOGGER.info("I found {} urls".format(len(url_list)))
+        LOGGER.info("I found %s urls", str(len(url_list)))
         return url_list

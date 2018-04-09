@@ -9,19 +9,22 @@ from llamedl.ichrome import IChrome
 
 class TestIChrome(unittest.TestCase):
     def setUp(self):
-        bookmarks_mock = mock.patch("llamedl.ichrome.IChrome.bookmarks", new_callable=mock.PropertyMock)
+        bookmarks_mock = mock.patch("llamedl.ichrome.IChrome.bookmarks",
+                                    new_callable=mock.PropertyMock)
         self.bookmarks_patch = bookmarks_mock.start()
         self.ich = IChrome()
 
     def test_get_folder__exist(self):
         expected_result = [{}]
-        self.bookmarks_patch.return_value = [{'type': 'folder', 'name': 'foobar', 'children': expected_result}]
+        self.bookmarks_patch.return_value = [{'type': 'folder',
+                                              'name': 'foobar', 'children': expected_result}]
         result = self.ich.get_folder("foobar")
         self.assertListEqual(expected_result, result)
 
     def test_get_folder__not_exist(self):
         expected_result = []
-        self.bookmarks_patch.return_value = [{'type': 'folder', 'name': 'foobar', 'children': expected_result}]
+        self.bookmarks_patch.return_value = [{'type': 'folder',
+                                              'name': 'foobar', 'children': expected_result}]
         result = self.ich.get_folder("foo")
         self.assertListEqual(expected_result, result)
 
