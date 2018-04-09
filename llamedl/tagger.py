@@ -43,7 +43,8 @@ class Tagger:
             tag_list = self.get_tags_from_last_fm(artist_name)
         tags_list = self.filter_tags(tag_list)
         LOGGER.debug("%s %s", artist_name, str(tags_list))
-        return tags_list.sort()
+        tags_list.sort()
+        return tags_list
 
     @staticmethod
     def get_tags_from_musicbrainzgs(artist_name):
@@ -56,7 +57,6 @@ class Tagger:
             result = musicbrainzngs.search_artists(artist_name)
             for artist_data in result.get('artist-list'):
                 if artist_data.get('name').lower() == artist_name.lower():
-                    print(artist_data.get('tag-list', {}))
                     return [tag.get('name').title() for tag in artist_data.get('tag-list', {})]
         except (HTTPError, musicbrainzngs.musicbrainz.ResponseError):
             pass
@@ -120,7 +120,7 @@ class Tagger:
         :param force:
         :return:
         """
-        LOGGER.info("Adding tags to %s".format(filename))
+        LOGGER.info("Adding tags to %s", filename)
         filepath = os.path.join(folder_path, filename + '.mp3')
         audio = EasyID3(filepath)
         LOGGER.debug(str(audio))

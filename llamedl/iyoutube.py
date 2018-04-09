@@ -86,12 +86,15 @@ class IYouTube:
         try:
             filename = self.get_title()
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
-                out_template = r"{}/{}.%(ext)s".format(self.download_directory, filename)
-                LOGGER.debug(out_template)
-                self.ydl_opts['outtmpl'] = out_template
-                ydl.params.update(self.ydl_opts)
+                self.__update_ydl_template(ydl, filename)
                 if not ydl.download([video_url]):
-                    LOGGER.info('"{}" Downloaded correctly!'.format(filename))
+                    LOGGER.info('"%s" Downloaded correctly!' % filename)
                 return True
         except youtube_dl.utils.DownloadError:
             return False
+
+    def __update_ydl_template(self, ydl, filename):
+        out_template = r"{}/{}.%(ext)s".format(self.download_directory, filename)
+        LOGGER.debug(out_template)
+        self.ydl_opts['outtmpl'] = out_template
+        ydl.params.update(self.ydl_opts)

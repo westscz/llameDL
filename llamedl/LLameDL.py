@@ -13,7 +13,7 @@ class LLameDL:
         self.__folder_name = None
         self.__download_directory = None
 
-    def main(self, download_directory=None, bookmarks_path=None, folder_name='MM'):
+    def main(self, download_directory=None, bookmarks_path=None, folder_name='M'):
         if not download_directory:
             self.__download_directory = "{}/Music".format(os.getenv("HOME"))
 
