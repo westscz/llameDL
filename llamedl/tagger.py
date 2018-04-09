@@ -41,11 +41,7 @@ class Tagger:
         tag_list = self.get_tags_from_musicbrainzgs(artist_name)
         if not tag_list:
             tag_list = self.get_tags_from_last_fm(artist_name)
-        tags_list = [tag.get('name').title() for tag in tag_list]
-        if self.whitelist:
-            tags_list = self.filter_tags_with_whitelist(tags_list)
-        if self.blacklist:
-            tags_list = self.filter_tags_with_blacklist(tags_list)
+        tags_list = self.filter_tags(tag_list)
         LOGGER.debug("%s %s", artist_name, str(tags_list))
         return tags_list.sort()
 
@@ -58,10 +54,9 @@ class Tagger:
         """
         try:
             result = musicbrainzngs.search_artists(artist_name)
-            if result.get('artist-count', 0):
-                for artist_data in result.get('artist-list'):
-                    if artist_data.get('name').lower() == artist_name.lower():
-                        return artist_data.get('tag-list', {})
+            for artist_data in result.get('artist-list'):
+                if artist_data.get('name').lower() == artist_name.lower():
+                    return [tag.get('name').title() for tag in artist_data.get('tag-list', {})]
         except (HTTPError, musicbrainzngs.musicbrainz.ResponseError):
             pass
         return []
@@ -83,11 +78,23 @@ class Tagger:
         if response.json().get('error'):
             return []
         tags = response.json().get('artist').get('tags').get('tag', [])
-        return tags
+        return [tag.get('name').title() for tag in tags]
+
+    def filter_tags(self, tags_list):
+        """
+        Filter tags_list with whitelist and/or blacklist
+        :param tags_list:
+        :return:
+        """
+        if self.whitelist:
+            tags_list = self.filter_tags_with_whitelist(tags_list)
+        if self.blacklist:
+            tags_list = self.filter_tags_with_blacklist(tags_list)
+        return tags_list
 
     def filter_tags_with_whitelist(self, tags_list):
         """
-        TBD
+        TBD            print(result.get('artist-count'))
         :param tags_list:
         :return:
         """
@@ -99,43 +106,39 @@ class Tagger:
         :param tags_list:
         :return:
         """
-        return [tag for tag in tags_list if tag not in self.blacklist]
+        return [tag for tag in tags_list if tag.lower() not in self.blacklist]
 
-    def add_tags_to_file(self, filename, folder_path, cover=None):
+    def add_tags_to_file(self, filename, folder_path, cover=None, force=None):
         """
 
         :param filename:
         :param folder_path:
         :param cover:
+        :param force:
         :return:
         """
-        filename_suffix = 'mp3'
-        LOGGER.info("Adding tags to {}".format(filename))
-        filepath = os.path.join(folder_path, filename + '.' + filename_suffix)
-
+        LOGGER.info("Adding tags to %s".format(filename))
+        filepath = os.path.join(folder_path, filename + '.mp3')
         audio = EasyID3(filepath)
         LOGGER.debug(str(audio))
-
         tags = change_string_to_tags(filename)
         genres = "\\".join(self.get_tags(tags.get('artist')))
         year = str(time.gmtime()[0])
-        tags.update({'genre': genres, 'date': year, 'album': year, 'albumartist': "VA", 'copyright': 'Jareczeg'})
-
+        tags.update({'genre': genres, 'date': year, 'album': year,
+                     'albumartist': "VA", 'copyright': 'Jareczeg'})
         audio.update(tags)
         audio.save(v1=2)
         if cover:
             self.add_cover_art(filepath, cover)
 
-    def add_cover_art(self, filepath, coverpath):
+    @staticmethod
+    def add_cover_art(filepath, coverpath):
         """
         TBD
         :param filepath:
         :param coverpath:
         :return:
         """
-        if not coverpath:
-            return False
-        print("Add cover")
         audio = ID3(filepath)
         with open(coverpath, 'rb') as albumart:
             audio['APIC'] = APIC(

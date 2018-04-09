@@ -1,5 +1,6 @@
 import unittest
-from llamedl.utill import remove_descriptions, change_string_to_tags, capitalize_first_char, create_filename
+from llamedl.utill import remove_descriptions, change_string_to_tags, \
+    capitalize_first_char, create_filename
 
 
 class Test(unittest.TestCase):
