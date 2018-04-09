@@ -56,9 +56,12 @@ class Tagger:
             result = musicbrainzngs.search_artists(artist_name)
             for artist_data in result.get('artist-list'):
                 if artist_data.get('name').lower() == artist_name.lower():
+                    print(artist_data.get('tag-list', {}))
                     return [tag.get('name').title() for tag in artist_data.get('tag-list', {})]
         except (HTTPError, musicbrainzngs.musicbrainz.ResponseError):
             pass
+        except TypeError:
+            return []
         return []
 
     @staticmethod
