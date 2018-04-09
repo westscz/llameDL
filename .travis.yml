@@ -2,11 +2,18 @@
   python:
     - "3.5"
     - "3.6"
+    - "3.6-dev"
     - "3.6.5"
+    - "3.7-dev"
     - "nightly"
+  matrix:
+    allow_failures:
+      python: "3.6-dev"
+      python: "3.7-dev"
   install:
     - pip install -r requirements.txt
     - pip install -r requirements-dev.txt
   script:
     - pytest
     - codecov --token=6b5d0835-8dcf-4847-bc72-d2659d84dc22
+    - ocular --access-token "e080f9d1885f1648042f52dec75dc4db5aa34a5945ae468447cf1ec216ec3a40" --data-file ".coverage"

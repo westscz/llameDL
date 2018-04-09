@@ -26,3 +26,5 @@ filter:
         - '*/tests/*'
     dependency_paths:
         - 'lib/*'
+tools:
+    external_code_coverage: true
