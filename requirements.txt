@@ -10,3 +10,4 @@ mutagen==1.40.0
 urllib3==1.22
 youtube-dl==2018.4.9
 requests==2.18.4
+tqdm
