@@ -81,8 +81,6 @@ class IYouTube:
         :param video_url: Url to youtube video
         :return: filename?
         """
-        if not self.__url_info:
-            return False
         video_url = self.__url if not video_url else video_url
         try:
             filename = self.get_title()

@@ -4,6 +4,7 @@
 """
 import os
 import time
+import argparse
 import musicbrainzngs
 import requests
 from llamedl.utill import create_logger, change_string_to_tags
@@ -20,16 +21,37 @@ class Tagger:
     # whitelist_sample = ["pop", "rock", "soul", "r&b", "trap rap", "electronic", "dubstep"]
     # blacklist_sample = ['owsla', 'seen live']
     """
-    def __init__(self, whitelist=None, blacklist=None, whitelist_from_file = False):
-        self.whitelist = [] if whitelist is None else whitelist
-        self.blacklist = [] if blacklist is None else blacklist
-        if whitelist_from_file:
-            self.load_whitelist_from_file()
+    def __init__(self):
+        self.whitelist_path = "../common/whitelist.cfg"
+        self.whitelist = []
+        self.cover_path = ""
+        self.force = False
+        self.path = ""
         self.__artist_data = {}
 
-    def load_whitelist_from_file(self):
-        with open("/home/jarek/Projects/LlameDL/common/whitelist.cfg") as f:
-            self.whitelist = f.read().splitlines()
+    def add_tags_to_file(self, filename, folder_path, cover=None, force=None):
+        """
+
+        :param filename:
+        :param folder_path:
+        :param cover:
+        :param force:
+        :return:
+        """
+        LOGGER.debug("Process %s", filename)
+        filepath = os.path.join(folder_path, filename + '.mp3')
+        audio = EasyID3(filepath)
+        if audio.get('genre', False) and not force:
+            return None
+        tags = change_string_to_tags(filename)
+        genres = "\\".join(self.get_tags(tags.get('artist')))
+        year = str(time.gmtime()[0])
+        tags.update({'genre': genres, 'date': year, 'album': year,
+                     'albumartist': "VA", 'copyright': 'LlameDL'})
+        audio.update(tags)
+        audio.save(v1=2)
+        if cover:
+            self.add_cover_art(filepath, cover)
 
     def get_tags(self, artist_name):
         """
@@ -43,7 +65,7 @@ class Tagger:
         if not tag_list:
             tag_list = self.get_tags_from_last_fm(artist_name)
         tags_list = self.filter_tags(tag_list)
-        LOGGER.debug("%s %s", artist_name, str(tags_list))
+        LOGGER.info("%s %s", artist_name, str(tags_list))
         tags_list.sort()
         return tags_list
 
@@ -92,8 +114,6 @@ class Tagger:
         """
         if self.whitelist:
             tags_list = self.filter_tags_with_whitelist(tags_list)
-        if self.blacklist:
-            tags_list = self.filter_tags_with_blacklist(tags_list)
         return tags_list
 
     def filter_tags_with_whitelist(self, tags_list):
@@ -103,37 +123,6 @@ class Tagger:
         :return:
         """
         return [tag for tag in tags_list if tag.lower() in self.whitelist]
-
-    def filter_tags_with_blacklist(self, tags_list):
-        """
-        TBD
-        :param tags_list:
-        :return:
-        """
-        return [tag for tag in tags_list if tag.lower() not in self.blacklist]
-
-    def add_tags_to_file(self, filename, folder_path, cover=None, force=None):
-        """
-
-        :param filename:
-        :param folder_path:
-        :param cover:
-        :param force:
-        :return:
-        """
-        LOGGER.info("Adding tags to %s", filename)
-        filepath = os.path.join(folder_path, filename + '.mp3')
-        audio = EasyID3(filepath)
-        LOGGER.debug(str(audio))
-        tags = change_string_to_tags(filename)
-        genres = "\\".join(self.get_tags(tags.get('artist')))
-        year = str(time.gmtime()[0])
-        tags.update({'genre': genres, 'date': year, 'album': year,
-                     'albumartist': "VA", 'copyright': 'Jareczeg'})
-        audio.update(tags)
-        audio.save(v1=2)
-        if cover:
-            self.add_cover_art(filepath, cover)
 
     @staticmethod
     def add_cover_art(filepath, coverpath):
@@ -154,13 +143,34 @@ class Tagger:
         audio.save()
         return True
 
-    def main(self, folder_path="/home/jarek/Music/04"):
+    def main(self):
         """
         TBD
         :param folder_path:
         :return:
         """
-        files_list = os.listdir(folder_path)
+        self.__create_args_parser().parse_args(namespace=self)
+        self.__load_filters()
+        files_list = os.listdir(self.path)
         for file in files_list:
             filename = os.path.splitext(file)[0]
-            self.add_tags_to_file(filename, folder_path)
+            self.add_tags_to_file(filename, self.path, self.cover_path, self.force)
+
+    @staticmethod
+    def __create_args_parser():
+        parser = argparse.ArgumentParser(prog="LlameTagger")
+        parser.add_argument('path', help="Path to directory with mp3 files")
+        parser.add_argument('-f', '--force', help="Force flag, add tags even if file contains tags")
+        parser.add_argument('-c', '--cover_path', help="Path to album cover, if album cover should be added")
+        parser.add_argument('-w', '--whitelist_path', help="Path to txt file with whitelisted tags")
+        return parser
+
+    def __load_filters(self):
+        if self.whitelist_path:
+            with open(self.whitelist_path) as f:
+                self.whitelist = f.read().splitlines()
+
+
+if __name__ == '__main__':
+    t = Tagger()
+    t.main()

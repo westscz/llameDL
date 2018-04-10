@@ -2,10 +2,11 @@
     llamedl.LLameDL.py
     ~~~~~~~~~~~~~~~~~~~
 """
+import os
+import argparse
 from llamedl.ichrome import IChrome
 from llamedl.iyoutube import IYouTube
 from llamedl.tagger import Tagger
-import os
 
 
 class LLameDL:
@@ -23,7 +24,7 @@ class LLameDL:
 
         self.chrome = IChrome(bookmarks_path)
         self.youtube = IYouTube(self.__download_directory)
-        self.tagger = Tagger(whitelist_from_file=True)
+        self.tagger = Tagger()
 
         url_list = self.chrome.get_yt_urls(folder_name)
         for url in url_list:
@@ -35,3 +36,17 @@ class LLameDL:
         if rc:
             title = self.youtube.get_title()
             self.tagger.add_tags_to_file(title, self.__download_directory)
+
+    def __create_args_parser(self):
+        parser = argparse.ArgumentParser(prog="LlameDL")
+        #bookmark name
+        #save path
+        #url
+        parser.add_argument('-c', '--cover', help="Path to album cover, if album cover should be added")
+        parser.add_argument('-w', '--whitelist', help="Path to txt file with whitelisted tags")
+        parser.add_argument('-b', '--blacklist', help="Path to txt file with blacklisted tags")
+        return parser
+
+if __name__ == '__main__':
+    l = LLameDL()
+    l.main()
