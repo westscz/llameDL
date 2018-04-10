@@ -7,10 +7,30 @@ import mock
 from llamedl.tagger import Tagger
 
 
+class Dummy_EasyID3(mock.MagicMock):
+    audio = None
+
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
+
+    def get(self, k, d=None):
+        return self.audio
+
+    def update(self, d):
+        print(d)
+        pass
+
+    def save(self, v1=None):
+        pass
+
+
 class TestTagger(unittest.TestCase):
     def setUp(self):
         self.t = Tagger()
         self.tags_list = ['foo', 'bar', 'foobar']
+
+        info_mock = mock.patch('llamedl.tagger.EasyID3', new=Dummy_EasyID3)
+        self.info_patch = info_mock.start()
 
     @mock.patch("musicbrainzngs.search_artists")
     def test_get_tags_from_musicbrainzgs__match(self, search_artist_patch):
@@ -37,6 +57,19 @@ class TestTagger(unittest.TestCase):
         self.t.blacklist = None
         result = self.t.filter_tags(self.tags_list)
         self.assertListEqual(['foo'], result)
+
+    @mock.patch("llamedl.tagger.EasyID3.update")
+    def test_add_tags_to_file__tags_exist(self, update_patch):
+        self.info_patch.audio = ['foo', 'bar']
+        self.t.add_tags_to_file("foobar - barfoo", '/foo/bar')
+        update_patch.assert_not_called()
+
+    @mock.patch("llamedl.tagger.Tagger.get_tags", return_value=["gen", "re"])
+    @mock.patch("llamedl.tagger.EasyID3.update")
+    def test_add_tags_to_file__tags_doesnt_exist(self, update_patch, tags_patch):
+        self.info_patch.audio = False
+        self.t.add_tags_to_file("foobar - barfoo", '/foo/bar')
+        update_patch.assert_called_with({'albumartist': 'VA', 'album': '2018', 'title': 'Barfoo', 'copyright': 'LlameDL', 'artist': 'Foobar', 'date': '2018', 'genre': 'gen\\re'})
 
 
 if __name__ == '__main__':
