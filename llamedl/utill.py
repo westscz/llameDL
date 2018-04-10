@@ -37,7 +37,7 @@ def remove_descriptions(string):
     :param string:
     :return:
     """
-    reg = r"[\[\(][^\[\(]*(oficjal|official|lyric|radio|video|audio|http|pl|hd)[^\[\(]*[\]\)]"
+    reg = r"[\[\(][^\[\(]*(oficjal|official|lyric|radio|video|audio|http|pl|hd|nowo)[^\[\(]*[\]\)]"
     while re.search(reg, string, re.IGNORECASE):
         result = re.search(reg, string, re.IGNORECASE)
         string = string.replace(result.group(), "")

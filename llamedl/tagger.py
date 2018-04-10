@@ -7,6 +7,7 @@ import time
 import argparse
 import musicbrainzngs
 import requests
+from tqdm import tqdm
 from llamedl.utill import create_logger, change_string_to_tags
 from urllib.error import HTTPError
 from mutagen.easyid3 import EasyID3
@@ -150,9 +151,9 @@ class Tagger:
         :return:
         """
         self.__create_args_parser().parse_args(namespace=self)
-        self.__load_filters()
+        self.load_filters()
         files_list = os.listdir(self.path)
-        for file in files_list:
+        for file in tqdm(files_list):
             filename = os.path.splitext(file)[0]
             self.add_tags_to_file(filename, self.path, self.cover_path, self.force)
 
@@ -165,12 +166,12 @@ class Tagger:
         parser.add_argument('-w', '--whitelist_path', help="Path to txt file with whitelisted tags")
         return parser
 
-    def __load_filters(self):
+    def load_filters(self):
         if self.whitelist_path:
             with open(self.whitelist_path) as f:
                 self.whitelist = f.read().splitlines()
 
 
 if __name__ == '__main__':
-    t = Tagger()
-    t.main()
+    tagger = Tagger()
+    tagger.main()

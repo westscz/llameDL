@@ -4,6 +4,7 @@
 """
 import os
 import argparse
+from tqdm import tqdm
 from llamedl.ichrome import IChrome
 from llamedl.iyoutube import IYouTube
 from llamedl.tagger import Tagger
@@ -15,19 +16,27 @@ class LLameDL:
         self.youtube = None
         self.tagger = None
 
+        self.directory_path = None
+        self.bookmark_name = "Music"
+        self.url = None
+        self.whitelist_path = "../common/whitelist.cfg"
+
         self.__folder_name = None
         self.__download_directory = None
 
-    def main(self, download_directory=None, bookmarks_path=None, folder_name='M'):
-        if not download_directory:
-            self.__download_directory = "{}/Music".format(os.getenv("HOME"))
+    def main(self, bookmarks_path=None):
+        self.__create_args_parser().parse_args(namespace=self)
+        print(self.__dict__)
+        self.__download_directory = "{}/Music".format(os.getenv("HOME")) if not self.directory_path \
+            else self.directory_path
 
         self.chrome = IChrome(bookmarks_path)
         self.youtube = IYouTube(self.__download_directory)
         self.tagger = Tagger()
+        self.tagger.load_filters()
 
-        url_list = self.chrome.get_yt_urls(folder_name)
-        for url in url_list:
+        url_list = self.chrome.get_yt_urls(self.bookmark_name) if not self.url else self.youtube.verify_url(self.url)
+        for url in tqdm(url_list):
             self.download_song(url)
 
     def download_song(self, url):
@@ -39,14 +48,16 @@ class LLameDL:
 
     def __create_args_parser(self):
         parser = argparse.ArgumentParser(prog="LlameDL")
-        #bookmark name
-        #save path
-        #url
+        parser.add_argument('-d', '--directory_path', help="Path to directory where audio should be saved, "
+                                                           "default=~/Music")
+        parser.add_argument('-n', '--bookmark_name', help="Name of folder in chrome bookmarks, "
+                                                          "default=Music")
+        parser.add_argument('-u', '--url', help="Url to Youtube video or playlist")
         parser.add_argument('-c', '--cover', help="Path to album cover, if album cover should be added")
-        parser.add_argument('-w', '--whitelist', help="Path to txt file with whitelisted tags")
-        parser.add_argument('-b', '--blacklist', help="Path to txt file with blacklisted tags")
+        parser.add_argument('-w', '--whitelist_path', help="Path to txt file with whitelisted tags")
         return parser
 
+
 if __name__ == '__main__':
-    l = LLameDL()
-    l.main()
+    llamedl = LLameDL()
+    llamedl.main()

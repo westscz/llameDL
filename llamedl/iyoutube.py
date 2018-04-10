@@ -45,7 +45,6 @@ class IYouTube:
             LOGGER.debug(error.exc_info[1])
             self.__url_info = None
 
-
     def get_title(self):
         """
         Get title for video from url given to url_info.
@@ -54,6 +53,15 @@ class IYouTube:
         :return: Refactored title
         """
         return create_filename(self.url_info.get("title"))
+
+    def verify_url(self, url):
+        """
+
+        :param url:
+        :return:
+        """
+        self.url_info = url
+        return self.get_playlist() if self.is_playlist() else url
 
     def is_playlist(self):
         """
