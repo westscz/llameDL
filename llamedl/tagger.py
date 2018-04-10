@@ -5,11 +5,11 @@
 import os
 import time
 import argparse
+from urllib.error import HTTPError
 import musicbrainzngs
 import requests
 from tqdm import tqdm
 from llamedl.utill import create_logger, change_string_to_tags
-from urllib.error import HTTPError
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3, APIC
 
@@ -22,6 +22,7 @@ class Tagger:
     # whitelist_sample = ["pop", "rock", "soul", "r&b", "trap rap", "electronic", "dubstep"]
     # blacklist_sample = ['owsla', 'seen live']
     """
+
     def __init__(self):
         self.whitelist_path = "../common/whitelist.cfg"
         self.whitelist = []
@@ -160,16 +161,20 @@ class Tagger:
     @staticmethod
     def __create_args_parser():
         parser = argparse.ArgumentParser(prog="LlameTagger")
-        parser.add_argument('path', help="Path to directory with mp3 files")
-        parser.add_argument('-f', '--force', help="Force flag, add tags even if file contains tags")
-        parser.add_argument('-c', '--cover_path', help="Path to album cover, if album cover should be added")
-        parser.add_argument('-w', '--whitelist_path', help="Path to txt file with whitelisted tags")
+        parser.add_argument('path',
+                            help="Path to directory with mp3 files")
+        parser.add_argument('-f', '--force',
+                            help="Force flag, add tags even if file contains tags")
+        parser.add_argument('-c', '--cover_path',
+                            help="Path to album cover, if album cover should be added")
+        parser.add_argument('-w', '--whitelist_path',
+                            help="Path to txt file with whitelisted tags")
         return parser
 
     def load_filters(self):
         if self.whitelist_path:
-            with open(self.whitelist_path) as f:
-                self.whitelist = f.read().splitlines()
+            with open(self.whitelist_path) as file:
+                self.whitelist = file.read().splitlines()
 
 
 if __name__ == '__main__':
