@@ -26,7 +26,7 @@ class LLameDL:
         self.__download_directory = None
 
     def main(self, bookmarks_path=None):
-        self.parse_args(sys.argv[1:])
+        self.parse_args(sys.argv[1:], self)
         self.__download_directory = "{}/Music".format(os.getenv("HOME")) if not self.directory_path \
             else self.directory_path
 
