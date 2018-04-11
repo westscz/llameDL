@@ -57,9 +57,8 @@ class TestTagger(unittest.TestCase):
         result = self.t.filter_tags(self.tags_list)
         self.assertListEqual(['foo'], result)
 
-    @mock.patch("llamedl.tagger.Tagger.get_tags", return_value=["gen", "re"])
     @mock.patch("llamedl.tagger.EasyID3.update")
-    def test_add_tags_to_file__tags_exist(self, update_patch, tags_patch):
+    def test_add_tags_to_file__tags_exist(self, update_patch):
         self.info_patch.audio = ['foo', 'bar']
         self.t.add_tags_to_file("foobar - barfoo", '/foo/bar')
         update_patch.assert_not_called()
@@ -79,15 +78,16 @@ class TestTagger(unittest.TestCase):
     def test_get_tags(self, lfm_patch, mb_patch):
         result = self.t.get_tags("Unknown")
         self.assertListEqual([], result)
+        lfm_patch.assert_not_called()
+        mb_patch.assert_not_called()
 
     @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
     @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
     def test_get_tags(self, lfm_patch, mb_patch):
         mb_patch.return_value = ["foo", "bar"]
         result = self.t.get_tags("Foobar")
-        print(result)
         self.assertListEqual(["bar", "foo"], result)
-        self.assertTrue(lfm_patch.not_called())
+        lfm_patch.assert_not_called()
 
     @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
     @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
@@ -101,6 +101,7 @@ class TestTagger(unittest.TestCase):
         self.t.whitelist_path = None
         self.t.load_filters()
         self.assertFalse(self.t.whitelist)
+
 
 if __name__ == '__main__':
     unittest.main()
