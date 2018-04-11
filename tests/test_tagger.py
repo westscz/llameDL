@@ -74,6 +74,33 @@ class TestTagger(unittest.TestCase):
                                          'title': 'Barfoo', 'copyright': 'LlameDL',
                                          'artist': 'Foobar', 'date': '2018', 'genre': 'gen\\re'})
 
+    @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
+    @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
+    def test_get_tags(self, lfm_patch, mb_patch):
+        result = self.t.get_tags("Unknown")
+        self.assertListEqual([], result)
+
+    @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
+    @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
+    def test_get_tags(self, lfm_patch, mb_patch):
+        mb_patch.return_value = ["foo", "bar"]
+        result = self.t.get_tags("Foobar")
+        print(result)
+        self.assertListEqual(["bar", "foo"], result)
+        self.assertTrue(lfm_patch.not_called())
+
+    @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
+    @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
+    def test_get_tags(self, lfm_patch, mb_patch):
+        mb_patch.return_value = []
+        lfm_patch.return_value = ["foo", "bar"]
+        result = self.t.get_tags("Foobar")
+        self.assertListEqual(["bar", "foo"], result)
+
+    def test_load_filters(self):
+        self.t.whitelist_path = None
+        self.t.load_filters()
+        self.assertFalse(self.t.whitelist)
 
 if __name__ == '__main__':
     unittest.main()
