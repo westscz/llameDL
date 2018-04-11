@@ -61,7 +61,7 @@ class IYouTube:
         :return:
         """
         self.url_info = url
-        return self.get_playlist() if self.is_playlist() else url
+        return self.get_playlist() if self.is_playlist() else [url]
 
     def is_playlist(self):
         """

@@ -47,6 +47,20 @@ class TestIYouTube(unittest.TestCase):
         result = self.iyt.get_playlist()
         self.assertListEqual([webpage_url], result)
 
+    def test_verify_url__is_playlist(self):
+        webpage_url = "foo.bar"
+        expected_result = "{}/1".format(webpage_url)
+        self.info_patch.return_value = {'_type': 'Playlist', 'entries': [{'webpage_url': expected_result}]}
+        result = self.iyt.verify_url(webpage_url)
+        self.assertListEqual(result, [expected_result])
+
+    def test_verify_url__is_not_playlist(self):
+        webpage_url = "foo.bar"
+        not_expected_result = "{}/1".format(webpage_url)
+        self.info_patch.return_value = {'webpage_url': not_expected_result}
+        result = self.iyt.verify_url(webpage_url)
+        self.assertListEqual(result, [webpage_url])
+
 
 if __name__ == '__main__':
     unittest.main()

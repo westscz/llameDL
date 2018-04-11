@@ -4,6 +4,7 @@
 """
 import os
 import time
+import sys
 import argparse
 from urllib.error import HTTPError
 import musicbrainzngs
@@ -151,7 +152,7 @@ class Tagger:
         :param folder_path:
         :return:
         """
-        self.__create_args_parser().parse_args(namespace=self)
+        self.parse_args(sys.argv[1:], self)
         self.load_filters()
         files_list = os.listdir(self.path)
         for file in tqdm(files_list):
@@ -159,7 +160,7 @@ class Tagger:
             self.add_tags_to_file(filename, self.path, self.cover_path, self.force)
 
     @staticmethod
-    def __create_args_parser():
+    def parse_args(args, namespace=None):
         parser = argparse.ArgumentParser(prog="LlameTagger")
         parser.add_argument('path',
                             help="Path to directory with mp3 files")
@@ -169,7 +170,7 @@ class Tagger:
                             help="Path to album cover, if album cover should be added")
         parser.add_argument('-w', '--whitelist_path',
                             help="Path to txt file with whitelisted tags")
-        return parser
+        return parser.parse_args(args, namespace=namespace)
 
     def load_filters(self):
         if self.whitelist_path:

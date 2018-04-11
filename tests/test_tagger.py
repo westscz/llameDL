@@ -102,6 +102,16 @@ class TestTagger(unittest.TestCase):
         self.t.load_filters()
         self.assertFalse(self.t.whitelist)
 
+    def test_parse_args__path(self):
+        path = '/foo/bar'
+        result = self.t.parse_args([path])
+        self.assertEqual(result.path, path)
+
+    def test_parse_args__no_args(self):
+        with self.assertRaises(SystemExit) as se:
+            self.t.parse_args([])
+        self.assertEqual(se.exception.code, 2)
+
 
 if __name__ == '__main__':
     unittest.main()

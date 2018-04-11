@@ -3,6 +3,7 @@
     ~~~~~~~~~~~~~~~~~~~
 """
 import os
+import sys
 import argparse
 from tqdm import tqdm
 from llamedl.ichrome import IChrome
@@ -25,8 +26,7 @@ class LLameDL:
         self.__download_directory = None
 
     def main(self, bookmarks_path=None):
-        self.__create_args_parser().parse_args(namespace=self)
-        print(self.__dict__)
+        self.parse_args(sys.argv[1:])
         self.__download_directory = "{}/Music".format(os.getenv("HOME")) if not self.directory_path \
             else self.directory_path
 
@@ -46,7 +46,7 @@ class LLameDL:
             title = self.youtube.get_title()
             self.tagger.add_tags_to_file(title, self.__download_directory)
 
-    def __create_args_parser(self):
+    def parse_args(self, args, namespace=None):
         parser = argparse.ArgumentParser(prog="LlameDL")
         parser.add_argument('-d', '--directory_path', help="Path to directory where audio should be saved, "
                                                            "default=~/Music")
@@ -55,7 +55,7 @@ class LLameDL:
         parser.add_argument('-u', '--url', help="Url to Youtube video or playlist")
         parser.add_argument('-c', '--cover', help="Path to album cover, if album cover should be added")
         parser.add_argument('-w', '--whitelist_path', help="Path to txt file with whitelisted tags")
-        return parser
+        return parser.parse_args(args, namespace=namespace)
 
 
 if __name__ == '__main__':
