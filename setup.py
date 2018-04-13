@@ -23,6 +23,7 @@ setup(
     # keywords = "example documentation tutorial",
     # url = "http://packages.python.org/an_example_pypi_project",
     packages=['llamedl', 'tests'],
+    package_data={'llamedl':'whitelist.cfg'},
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",

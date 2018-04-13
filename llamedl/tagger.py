@@ -24,7 +24,7 @@ class Tagger:
     """
 
     def __init__(self):
-        self.whitelist_path = "../common/whitelist.cfg"
+        self.whitelist_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "whitelist.cfg")
         self.whitelist = []
         self.cover_path = ""
         self.force = False
