@@ -21,7 +21,6 @@ musicbrainzngs.set_useragent("LLameDL", "0.1", "http://github.com/music")
 class Tagger:
     """
     # whitelist_sample = ["pop", "rock", "soul", "r&b", "trap rap", "electronic", "dubstep"]
-    # blacklist_sample = ['owsla', 'seen live']
     """
 
     def __init__(self):
@@ -168,7 +167,9 @@ class Tagger:
                             help="Force flag, add tags even if file contains tags")
         parser.add_argument('-c', '--cover_path',
                             help="Path to album cover, if album cover should be added")
-        parser.add_argument('-w', '--whitelist_path',
+        parser.add_argument('-w', '--default_whitelist',
+                            help="Use default whitelist, default=True")
+        parser.add_argument('-p', '--whitelist_path',
                             help="Path to txt file with whitelisted tags")
         return parser.parse_args(args, namespace=namespace)
 
@@ -178,6 +179,10 @@ class Tagger:
                 self.whitelist = file.read().splitlines()
 
 
-if __name__ == '__main__':
+def main():
     tagger = Tagger()
     tagger.main()
+
+
+if __name__ == '__main__':
+    main()

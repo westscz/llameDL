@@ -36,6 +36,11 @@ class LLameDL:
         self.tagger.load_filters()
 
         url_list = self.chrome.get_yt_urls(self.bookmark_name) if not self.url else self.youtube.verify_url(self.url)
+        self.download_songs_from_list(url_list)
+
+    def download_songs_from_list(self, url_list):
+        if not url_list:
+            return None
         for url in tqdm(url_list):
             self.download_song(url)
 
@@ -48,16 +53,25 @@ class LLameDL:
 
     def parse_args(self, args, namespace=None):
         parser = argparse.ArgumentParser(prog="LlameDL")
-        parser.add_argument('-d', '--directory_path', help="Path to directory where audio should be saved, "
-                                                           "default=~/Music")
-        parser.add_argument('-n', '--bookmark_name', help="Name of folder in chrome bookmarks, "
-                                                          "default=Music")
-        parser.add_argument('-u', '--url', help="Url to Youtube video or playlist")
-        parser.add_argument('-c', '--cover', help="Path to album cover, if album cover should be added")
-        parser.add_argument('-w', '--whitelist_path', help="Path to txt file with whitelisted tags")
+        parser.add_argument('-d', '--directory_path',
+                            help="Path to directory where audio should be saved, default=~/Music")
+        parser.add_argument('-n', '--bookmark_name',
+                            help="Name of folder in chrome bookmarks, default=Music")
+        parser.add_argument('-u', '--url',
+                            help="Url to Youtube video or playlist")
+        parser.add_argument('-c', '--cover',
+                            help="Path to album cover, if album cover should be added")
+        parser.add_argument('-w', '--default_whitelist',
+                            help="Use default whitelist, default=True")
+        parser.add_argument('-p', '--whitelist_path',
+                            help="Path to txt file with whitelisted tags")
         return parser.parse_args(args, namespace=namespace)
 
 
-if __name__ == '__main__':
+def main():
     llamedl = LLameDL()
     llamedl.main()
+
+
+if __name__ == '__main__':
+    main()

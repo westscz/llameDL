@@ -13,3 +13,6 @@ Install:
 - pip install -r requirements.txt
 - ffprobe or avprobe
 
+Use:
+- llamedl
+- llametagger
