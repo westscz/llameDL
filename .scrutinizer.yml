@@ -18,7 +18,7 @@ build:
 #                node:
 #                    version: 6.0.0
         tests: true
-             dependencies:
+            dependencies:
                 before:
                     - pip install -r requirements-dev.txt
 
