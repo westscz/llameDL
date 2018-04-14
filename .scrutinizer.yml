@@ -14,10 +14,10 @@ build:
                     -
                         command: pylint-run
                         use_website_config: true
-#            environment:
-#                node:
-#                    version: 6.0.0
-        tests: true
+            environment:
+                node:
+                    version: 6.0.0
+        tests:
             dependencies:
                 before:
                     - pip install -r requirements-dev.txt
