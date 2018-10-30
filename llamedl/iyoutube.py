@@ -37,6 +37,7 @@ class IYouTube:
 
     @url_info.setter
     def url_info(self, video_url):
+        print(video_url)
         self.__url = video_url
         try:
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:

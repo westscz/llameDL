@@ -6,7 +6,7 @@ import os
 import sys
 import argparse
 from tqdm import tqdm
-from llamedl.ichrome import IChrome
+from llamedl.browser.chromebrowser import ChromeBrowser
 from llamedl.iyoutube import IYouTube
 from llamedl.tagger import Tagger
 
@@ -18,7 +18,7 @@ class LLameDL:
         self.tagger = None
 
         self.directory_path = None
-        self.bookmark_name = "Music"
+        self.bookmark_name = "M"
         self.url = None
         self.whitelist_path = "../common/whitelist.cfg"
 
@@ -30,12 +30,12 @@ class LLameDL:
         self.__download_directory = "{}/Music".format(os.getenv("HOME")) if not self.directory_path \
             else self.directory_path
 
-        self.chrome = IChrome(bookmarks_path)
+        self.chrome = ChromeBrowser(bookmarks_path)
         self.youtube = IYouTube(self.__download_directory)
         self.tagger = Tagger()
         self.tagger.load_filters()
 
-        url_list = self.chrome.get_yt_urls(self.bookmark_name) if not self.url else self.youtube.verify_url(self.url)
+        url_list = self.chrome.get_youtube_urls_from_folder(self.bookmark_name) if not self.url else self.youtube.verify_url(self.url)
         self.download_songs_from_list(url_list)
 
     def download_songs_from_list(self, url_list):
