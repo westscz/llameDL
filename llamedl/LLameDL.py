@@ -7,7 +7,7 @@ import sys
 import argparse
 from tqdm import tqdm
 from llamedl.browser.chromebrowser import ChromeBrowser
-from llamedl.iyoutube import IYouTube
+from llamedl.downloaders.youtubedownloader import YouTubeDownloader
 from llamedl.tagger import Tagger
 
 
@@ -31,7 +31,7 @@ class LLameDL:
             else self.directory_path
 
         self.chrome = ChromeBrowser(bookmarks_path)
-        self.youtube = IYouTube(self.__download_directory)
+        self.youtube = YouTubeDownloader(self.__download_directory)
         self.tagger = Tagger()
         self.tagger.load_filters()
 

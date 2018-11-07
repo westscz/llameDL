@@ -4,12 +4,12 @@
 """
 import unittest
 import mock
-from llamedl.iyoutube import IYouTube
+from llamedl.downloaders.youtubedownloader import YouTubeDownloader
 
 
 class TestIYouTube(unittest.TestCase):
     def setUp(self):
-        self.iyt = IYouTube("")
+        self.iyt = YouTubeDownloader("")
         info_mock = mock.patch('llamedl.iyoutube.IYouTube.url_info', new_callable=mock.PropertyMock)
         self.info_patch = info_mock.start()
 

@@ -1,5 +1,5 @@
 """
-    llamedl.iyoutube.py
+    llamedl.youtubedownloader.py
     ~~~~~~~~~~~~~~~~~~~
 """
 import youtube_dl
@@ -8,7 +8,7 @@ from llamedl.utill import create_logger, YTLogger, create_filename
 LOGGER = create_logger("YouTube")
 
 
-class IYouTube:
+class YouTubeDownloader:
     """
     Module to get information about youtube url, and download audio
     """

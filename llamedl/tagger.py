@@ -6,16 +6,17 @@ import os
 import time
 import sys
 import argparse
-from urllib.error import HTTPError
-import musicbrainzngs
+
 import requests
 from tqdm import tqdm
+
+from llamedl.tags.lastfmtags import LastFmTags
+from llamedl.tags.musicbrainzgstags import MusicbrainzgsTags
 from llamedl.utill import create_logger, change_string_to_tags
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import ID3, APIC
 
 LOGGER = create_logger("Tagger")
-musicbrainzngs.set_useragent("LLameDL", "0.1", "http://github.com/music")
 
 
 class Tagger:
@@ -78,16 +79,7 @@ class Tagger:
         :param artist_name:
         :return:
         """
-        try:
-            result = musicbrainzngs.search_artists(artist_name)
-            for artist_data in result.get('artist-list'):
-                if artist_data.get('name').lower() == artist_name.lower():
-                    return [tag.get('name').title() for tag in artist_data.get('tag-list', {})]
-        except (HTTPError, musicbrainzngs.musicbrainz.ResponseError):
-            pass
-        except TypeError:
-            return []
-        return []
+        return MusicbrainzgsTags().get_tags(artist_name)
 
     @staticmethod
     def get_tags_from_last_fm(artist_name):
@@ -96,17 +88,7 @@ class Tagger:
         :param artist_name:
         :return:
         """
-        artist_name = artist_name.replace(" ", "%20")
-        api_key = "a7b8b15b54a347be1736dd0f77c7d048"
-        response = requests.get(
-            "http://ws.audioscrobbler.com/2.0/?"
-            "method=artist.getInfo&artist={artist}&user=RJ&"
-            "api_key={api_key}&format=json".format(
-                artist=artist_name, api_key=api_key))
-        if response.json().get('error'):
-            return []
-        tags = response.json().get('artist').get('tags').get('tag', [])
-        return [tag.get('name').title() for tag in tags]
+        return LastFmTags().get_tags(artist_name)
 
     def filter_tags(self, tags_list):
         """
