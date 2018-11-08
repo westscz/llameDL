@@ -20,28 +20,28 @@ def create_logger(logger_name):
 
 
 def create_filename(string):
-    """
-    Get string and return fixed string.
+    """Get string and return fixed string.
+
     String should be in format 'artist - title'
     :param string:
     :return:
     """
     result_title = remove_descriptions(string)
     result_title = change_string_to_tags(result_title)
-    return " - ".join([result_title['artist'], result_title['title']]).rstrip(" ")
+    return ' - '.join([result_title['artist'], result_title['title']]).rstrip(' ')
 
 
 def remove_descriptions(string):
-    """
-    Get string and remove all regex matches
+    """Get string and remove all regex matches.
+
     :param string:
     :return:
     """
     reg = r"[\[\(][^\[\(]*(oficjal|official|lyric|radio|video|audio|http|pl|hd|nowo)[^\[\(]*[\]\)]"
     while re.search(reg, string, re.IGNORECASE):
         result = re.search(reg, string, re.IGNORECASE)
-        string = string.replace(result.group(), "")
-    return string.rstrip(" ")
+        string = string.replace(result.group(), '')
+    return string.rstrip(' ')
 
 
 def change_string_to_tags(string):
@@ -50,7 +50,7 @@ def change_string_to_tags(string):
     :param string:
     :return:
     """
-    string = string.replace("/", "")
+    string = string.replace('/', '')
     reg = r"(?P<artist>.*) [--–] (?P<title>.*)"
     result = re.search(reg, string)
     if result:
@@ -60,8 +60,8 @@ def change_string_to_tags(string):
 
 
 def capitalize_first_char(string):
-    """
-    Get string and capitalize first char
+    """Get string and capitalize first char.
+
     :param string:
     :return:
     """
@@ -69,9 +69,7 @@ def capitalize_first_char(string):
 
 
 class YTLogger:
-    """
-    Simple logger for IYouTube purpose
-    """
+    """Simple logger for IYouTube purpose."""
 
     def debug(self, msg):
         """

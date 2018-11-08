@@ -20,16 +20,16 @@ class LLameDL:
         self.tagger = None
 
         self.directory_path = None
-        self.bookmark_name = "M"
+        self.bookmark_name = 'M'
         self.url = None
-        self.whitelist_path = "../common/whitelist.cfg"
+        self.whitelist_path = '../common/whitelist.cfg'
 
         self.__folder_name = None
         self.__download_directory = None
 
     def main(self, bookmarks_path=None):
         self.parse_args(sys.argv[1:], self)
-        self.__download_directory = "{}/Music".format(os.getenv("HOME")) if not self.directory_path \
+        self.__download_directory = '{}/Music'.format(os.getenv('HOME')) if not self.directory_path \
             else self.directory_path
 
         self.chrome = ChromeBrowser(bookmarks_path)
@@ -55,19 +55,19 @@ class LLameDL:
             self.tagger.add_tags_to_file(title, self.__download_directory)
 
     def parse_args(self, args, namespace=None):
-        parser = argparse.ArgumentParser(prog="LlameDL")
+        parser = argparse.ArgumentParser(prog='LlameDL')
         parser.add_argument('-d', '--directory_path',
-                            help="Path to directory where audio should be saved, default=~/Music")
+                            help='Path to directory where audio should be saved, default=~/Music')
         parser.add_argument('-n', '--bookmark_name',
-                            help="Name of folder in chrome bookmarks, default=Music")
+                            help='Name of folder in chrome bookmarks, default=Music')
         parser.add_argument('-u', '--url',
-                            help="Url to Youtube video or playlist")
+                            help='Url to Youtube video or playlist')
         parser.add_argument('-c', '--cover',
-                            help="Path to album cover, if album cover should be added")
+                            help='Path to album cover, if album cover should be added')
         parser.add_argument('-w', '--default_whitelist',
-                            help="Use default whitelist, default=True")
+                            help='Use default whitelist, default=True')
         parser.add_argument('-p', '--whitelist_path',
-                            help="Path to txt file with whitelisted tags")
+                            help='Path to txt file with whitelisted tags')
         return parser.parse_args(args, namespace=namespace)
 
 

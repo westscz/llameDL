@@ -5,13 +5,11 @@
 import youtube_dl
 from llamedl.utill import YTLogger, create_filename, create_logger
 
-LOGGER = create_logger("YouTube")
+LOGGER = create_logger('YouTube')
 
 
 class YouTubeDownloader:
-    """
-    Module to get information about youtube url, and download audio
-    """
+    """Module to get information about youtube url, and download audio."""
 
     def __init__(self, download_directory):
         self.ydl_opts = {
@@ -48,13 +46,12 @@ class YouTubeDownloader:
             self.__url_info = None
 
     def get_title(self):
-        """
-        Get title for video from url given to url_info.
-        Original title will be fixed, and neccessary descriptions will be removed
+        """Get title for video from url given to url_info. Original title will
+        be fixed, and neccessary descriptions will be removed.
 
         :return: Refactored title
         """
-        return create_filename(self.url_info.get("title"))
+        return create_filename(self.url_info.get('title'))
 
     def verify_url(self, url):
         """
@@ -66,16 +63,14 @@ class YouTubeDownloader:
         return self.get_playlist() if self.is_playlist() else [url]
 
     def is_playlist(self):
-        """
-        Check if url is a playlist
+        """Check if url is a playlist.
 
         :return:
         """
         return False if not self.url_info.get('_type') else True
 
     def get_playlist(self):
-        """
-        Get url of all videos in playlist
+        """Get url of all videos in playlist.
 
         :return: List of urls from playlist
         """
@@ -85,8 +80,7 @@ class YouTubeDownloader:
             return []
 
     def download_mp3(self, video_url=None):
-        """
-        Download video from youtube and convert to mp3 format
+        """Download video from youtube and convert to mp3 format.
 
         :param video_url: Url to youtube video
         :return: filename?

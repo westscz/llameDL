@@ -5,7 +5,7 @@ from llamedl.tags.filetags import FileTags
 
 class TestFileTags(unittest.TestCase):
     def setUp(self):
-        self.obj = FileTags("/foo/bar")
+        self.obj = FileTags('/foo/bar')
         self.obj._file_content = {'foo': ['Dance', 'Pop']}
 
     def test_get_tags__available(self):

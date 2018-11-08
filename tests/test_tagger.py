@@ -32,7 +32,7 @@ class TestTagger(unittest.TestCase):
         info_mock = mock.patch('llamedl.tagger.EasyID3', new=DummyEasyID3)
         self.info_patch = info_mock.start()
 
-    @mock.patch("musicbrainzngs.search_artists")
+    @mock.patch('musicbrainzngs.search_artists')
     def test_get_tags_from_musicbrainzgs__match(self, search_artist_patch):
         expected_result = ['Bar']
         search_artist_patch.return_value = {'artist-count': 1,
@@ -41,7 +41,7 @@ class TestTagger(unittest.TestCase):
         result = self.t.get_tags_from_musicbrainzgs('foo')
         self.assertListEqual(expected_result, result)
 
-    @mock.patch("musicbrainzngs.search_artists")
+    @mock.patch('musicbrainzngs.search_artists')
     def test_get_tags_from_musicbrainzgs__empty(self, search_artist_patch):
         search_artist_patch.return_value = {'artist-count': 0}
         result = self.t.get_tags_from_musicbrainzgs('foo')
@@ -58,45 +58,45 @@ class TestTagger(unittest.TestCase):
         result = self.t.filter_tags(self.tags_list)
         self.assertListEqual(['foo'], result)
 
-    @mock.patch("llamedl.tagger.EasyID3.update")
+    @mock.patch('llamedl.tagger.EasyID3.update')
     def test_add_tags_to_file__tags_exist(self, update_patch):
         self.info_patch.audio = ['foo', 'bar']
-        self.t.add_tags_to_file("foobar - barfoo", '/foo/bar')
+        self.t.add_tags_to_file('foobar - barfoo', '/foo/bar')
         update_patch.assert_not_called()
 
-    @mock.patch("llamedl.tagger.Tagger.get_tags", return_value=["gen", "re"])
-    @mock.patch("llamedl.tagger.EasyID3.update")
+    @mock.patch('llamedl.tagger.Tagger.get_tags', return_value=['gen', 're'])
+    @mock.patch('llamedl.tagger.EasyID3.update')
     def test_add_tags_to_file__tags_doesnt_exist(self, update_patch, tags_patch):
         self.info_patch.audio = False
-        self.t.add_tags_to_file("foobar - barfoo", '/foo/bar')
-        tags_patch.assert_called_with("Foobar")
+        self.t.add_tags_to_file('foobar - barfoo', '/foo/bar')
+        tags_patch.assert_called_with('Foobar')
         update_patch.assert_called_with({'albumartist': 'VA', 'album': '2018',
                                          'title': 'Barfoo', 'copyright': 'LlameDL',
                                          'artist': 'Foobar', 'date': '2018', 'genre': 'gen\\re'})
 
-    @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
-    @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
+    @mock.patch('llamedl.tagger.Tagger.get_tags_from_musicbrainzgs')
+    @mock.patch('llamedl.tagger.Tagger.get_tags_from_last_fm')
     def test_get_tags(self, lfm_patch, mb_patch):
-        result = self.t.get_tags("Unknown")
+        result = self.t.get_tags('Unknown')
         self.assertListEqual([], result)
         lfm_patch.assert_not_called()
         mb_patch.assert_not_called()
 
-    @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
-    @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
+    @mock.patch('llamedl.tagger.Tagger.get_tags_from_musicbrainzgs')
+    @mock.patch('llamedl.tagger.Tagger.get_tags_from_last_fm')
     def test_get_tags(self, lfm_patch, mb_patch):
-        mb_patch.return_value = ["foo", "bar"]
-        result = self.t.get_tags("Foobar")
-        self.assertListEqual(["bar", "foo"], result)
+        mb_patch.return_value = ['foo', 'bar']
+        result = self.t.get_tags('Foobar')
+        self.assertListEqual(['bar', 'foo'], result)
         lfm_patch.assert_not_called()
 
-    @mock.patch("llamedl.tagger.Tagger.get_tags_from_musicbrainzgs")
-    @mock.patch("llamedl.tagger.Tagger.get_tags_from_last_fm")
+    @mock.patch('llamedl.tagger.Tagger.get_tags_from_musicbrainzgs')
+    @mock.patch('llamedl.tagger.Tagger.get_tags_from_last_fm')
     def test_get_tags(self, lfm_patch, mb_patch):
         mb_patch.return_value = []
-        lfm_patch.return_value = ["foo", "bar"]
-        result = self.t.get_tags("Foobar")
-        self.assertListEqual(["bar", "foo"], result)
+        lfm_patch.return_value = ['foo', 'bar']
+        result = self.t.get_tags('Foobar')
+        self.assertListEqual(['bar', 'foo'], result)
 
     def test_load_filters(self):
         self.t.whitelist_path = None

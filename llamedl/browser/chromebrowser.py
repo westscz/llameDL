@@ -13,11 +13,9 @@ LOGGER = create_logger(__name__)
 
 
 class ChromeBrowser(BaseBrowser):
-    """
-    Class to retrieve bookmarks from google chrome browser
-    """
+    """Class to retrieve bookmarks from google chrome browser."""
 
-    def __init__(self, bookmarks_path=None, user="Default", folder_name=None):
+    def __init__(self, bookmarks_path=None, user='Default', folder_name=None):
         self.__url_list = list()
         self.__bookmarks_json = None
         self.user = user
@@ -31,17 +29,17 @@ class ChromeBrowser(BaseBrowser):
         return self.__bookmarks_path
 
     def _get_bookmarks_path(self):
-        output = subprocess.check_output(['which', 'chromium']).decode("utf-8")
-        env_home_path = os.getenv("HOME")
+        output = subprocess.check_output(['which', 'chromium']).decode('utf-8')
+        env_home_path = os.getenv('HOME')
         if 'snap' in output:
-            return f"{env_home_path}/snap/chromium/current/.config/chromium/{self.user}/Bookmarks"
+            return f'{env_home_path}/snap/chromium/current/.config/chromium/{self.user}/Bookmarks'
         else:
-            return f"{env_home_path}/.config/chromium/{self.user}/Bookmarks"
+            return f'{env_home_path}/.config/chromium/{self.user}/Bookmarks'
 
     @property
     def bookmarks(self):
-        """
-        TBD
+        """TBD.
+
         :return:
         """
         print(self.bookmarks_path)
@@ -51,8 +49,8 @@ class ChromeBrowser(BaseBrowser):
         return self.__bookmarks_json
 
     def get_folder(self, folder_name):
-        """
-        TBD
+        """TBD.
+
         :param folder_name:
         :return:
         """
@@ -71,18 +69,18 @@ class ChromeBrowser(BaseBrowser):
                     return result
 
     def get_youtube_urls_from_folder(self, folder_name):
-        """
-        TBD
+        """TBD.
+
         :param folder_name: Folder name in chrome bookmarks
         :return:
         """
         urls_data = {}
         for node in self.get_folder(folder_name):
-            url = node.get("url", "")
+            url = node.get('url', '')
             if 'youtube' in url:
-                name = node.get("name", "")
+                name = node.get('name', '')
                 urls_data[name] = url
-        LOGGER.info("I found %s urls", str(len(urls_data)))
+        LOGGER.info('I found %s urls', str(len(urls_data)))
         for name, url in urls_data.items():
             LOGGER.debug(name, url)
         return list(urls_data.values())
@@ -92,5 +90,5 @@ class ChromeBrowser(BaseBrowser):
 
 
 if __name__ == '__main__':
-    c = ChromeBrowser(folder_name="Music")
+    c = ChromeBrowser(folder_name='Music')
     print(c.get_urls())

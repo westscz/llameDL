@@ -8,11 +8,11 @@ def read(fname):
 
 
 setup(
-    name="LlameDL",
-    version="0.1.0",
-    author="Jaroslaw Piszczala",
-    author_email="jaroslawpiszczala@gmail.com",
-    description=("Download music from YouTube and add tags"),
+    name='LlameDL',
+    version='0.1.0',
+    author='Jaroslaw Piszczala',
+    author_email='jaroslawpiszczala@gmail.com',
+    description=('Download music from YouTube and add tags'),
     include_package_data=True,
     entry_points={
         'console_scripts': [
@@ -28,9 +28,9 @@ setup(
     package_data={'llamedl': 'whitelist.cfg'},
     long_description=read('README.md'),
     classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python 3",
-        "Topic :: Multimedia :: Audio"
+        'Development Status :: 3 - Alpha',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python 3',
+        'Topic :: Multimedia :: Audio'
     ],
 )

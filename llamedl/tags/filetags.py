@@ -5,8 +5,9 @@ from llamedl.tags.basetags import BaseTags
 
 class FileTags(BaseTags):
     def __init__(self, tags_file_path):
-        """
-        Add support for yaml file where key is artist, and value is tags list
+        """Add support for yaml file where key is artist, and value is tags
+        list.
+
         :param tags_file_path:
         """
         self.tags_file_path = tags_file_path

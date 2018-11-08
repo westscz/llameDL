@@ -10,7 +10,7 @@ from llamedl.downloaders.youtubedownloader import YouTubeDownloader
 
 class TestIYouTube(unittest.TestCase):
     def setUp(self):
-        self.iyt = YouTubeDownloader("")
+        self.iyt = YouTubeDownloader('')
         info_mock = mock.patch('llamedl.iyoutube.IYouTube.url_info', new_callable=mock.PropertyMock)
         self.info_patch = info_mock.start()
 
@@ -43,21 +43,21 @@ class TestIYouTube(unittest.TestCase):
         self.assertListEqual([], result)
 
     def test_get_playlist__entries_exist(self):
-        webpage_url = "foo.bar"
+        webpage_url = 'foo.bar'
         self.info_patch.return_value = {'entries': [{'webpage_url': webpage_url}]}
         result = self.iyt.get_playlist()
         self.assertListEqual([webpage_url], result)
 
     def test_verify_url__is_playlist(self):
-        webpage_url = "foo.bar"
-        expected_result = "{}/1".format(webpage_url)
+        webpage_url = 'foo.bar'
+        expected_result = '{}/1'.format(webpage_url)
         self.info_patch.return_value = {'_type': 'Playlist', 'entries': [{'webpage_url': expected_result}]}
         result = self.iyt.verify_url(webpage_url)
         self.assertListEqual(result, [expected_result])
 
     def test_verify_url__is_not_playlist(self):
-        webpage_url = "foo.bar"
-        not_expected_result = "{}/1".format(webpage_url)
+        webpage_url = 'foo.bar'
+        not_expected_result = '{}/1'.format(webpage_url)
         self.info_patch.return_value = {'webpage_url': not_expected_result}
         result = self.iyt.verify_url(webpage_url)
         self.assertListEqual(result, [webpage_url])
