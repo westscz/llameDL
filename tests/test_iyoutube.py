@@ -44,7 +44,7 @@ class TestIYouTube(unittest.TestCase):
 
     def test_get_playlist__entries_exist(self):
         webpage_url = "foo.bar"
-        self.info_patch.return_value = {'entries': [{'webpage_url':webpage_url}]}
+        self.info_patch.return_value = {'entries': [{'webpage_url': webpage_url}]}
         result = self.iyt.get_playlist()
         self.assertListEqual([webpage_url], result)
 

@@ -37,7 +37,8 @@ class LLameDL:
         self.tagger = Tagger()
         self.tagger.load_filters()
 
-        url_list = self.chrome.get_youtube_urls_from_folder(self.bookmark_name) if not self.url else self.youtube.verify_url(self.url)
+        url_list = self.chrome.get_youtube_urls_from_folder(
+            self.bookmark_name) if not self.url else self.youtube.verify_url(self.url)
         self.download_songs_from_list(url_list)
 
     def download_songs_from_list(self, url_list):

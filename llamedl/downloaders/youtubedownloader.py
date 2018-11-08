@@ -12,6 +12,7 @@ class YouTubeDownloader:
     """
     Module to get information about youtube url, and download audio
     """
+
     def __init__(self, download_directory):
         self.ydl_opts = {
             'format': 'bestaudio/best',

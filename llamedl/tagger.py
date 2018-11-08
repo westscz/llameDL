@@ -7,7 +7,6 @@ import os
 import sys
 import time
 
-import requests
 from tqdm import tqdm
 
 from llamedl.tags.lastfmtags import LastFmTags

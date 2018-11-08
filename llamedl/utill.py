@@ -72,13 +72,13 @@ class YTLogger:
     """
     Simple logger for IYouTube purpose
     """
+
     def debug(self, msg):
         """
 
         :param msg:
         :return:
         """
-        pass
 
     def warning(self, msg):
         """
@@ -86,7 +86,6 @@ class YTLogger:
         :param msg:
         :return:
         """
-        pass
 
     def error(self, msg):
         """
@@ -94,4 +93,3 @@ class YTLogger:
         :param msg:
         :return:
         """
-        pass
