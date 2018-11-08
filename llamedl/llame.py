@@ -2,10 +2,12 @@
     llamedl.llame.py
     ~~~~~~~~~~~~~~~~~~~
 """
+import argparse
 import os
 import sys
-import argparse
+
 from tqdm import tqdm
+
 from llamedl.browser.chromebrowser import ChromeBrowser
 from llamedl.downloaders.youtubedownloader import YouTubeDownloader
 from llamedl.tagger import Tagger

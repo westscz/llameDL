@@ -4,8 +4,8 @@
     llamedl.utill.py
     ~~~~~~~~~~~~~~~~~~~
 """
-import re
 import logging
+import re
 
 
 def create_logger(logger_name):

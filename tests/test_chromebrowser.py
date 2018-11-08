@@ -3,6 +3,7 @@
     ~~~~~~~~~~~~~
 """
 import unittest
+
 import mock
 from llamedl.browser.chromebrowser import ChromeBrowser
 

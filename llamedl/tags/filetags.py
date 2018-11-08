@@ -1,5 +1,6 @@
-from llamedl.tags.basetags import BaseTags
 import yaml
+
+from llamedl.tags.basetags import BaseTags
 
 
 class FileTags(BaseTags):

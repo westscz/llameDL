@@ -3,8 +3,9 @@
     ~~~~~~~~~~~~~
 """
 import unittest
-from llamedl.utill import remove_descriptions, change_string_to_tags, \
-    capitalize_first_char, create_filename
+
+from llamedl.utill import (capitalize_first_char, change_string_to_tags,
+                           create_filename, remove_descriptions)
 
 
 class Test(unittest.TestCase):

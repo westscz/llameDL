@@ -2,19 +2,19 @@
     llamedl.tagger.py
     ~~~~~~~~~~~~~~~~~~~
 """
-import os
-import time
-import sys
 import argparse
+import os
+import sys
+import time
 
 import requests
 from tqdm import tqdm
 
 from llamedl.tags.lastfmtags import LastFmTags
 from llamedl.tags.musicbrainzgstags import MusicbrainzgsTags
-from llamedl.utill import create_logger, change_string_to_tags
+from llamedl.utill import change_string_to_tags, create_logger
 from mutagen.easyid3 import EasyID3
-from mutagen.id3 import ID3, APIC
+from mutagen.id3 import APIC, ID3
 
 LOGGER = create_logger("Tagger")
 

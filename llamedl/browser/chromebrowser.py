@@ -2,8 +2,8 @@
 llamedl.chrome.py
 =========
 """
-import os
 import json
+import os
 import subprocess
 
 from llamedl.browser.basebrowser import BaseBrowser

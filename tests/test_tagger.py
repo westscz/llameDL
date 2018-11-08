@@ -3,6 +3,7 @@
     ~~~~~~~~~~~~~
 """
 import unittest
+
 import mock
 from llamedl.tagger import Tagger
 
