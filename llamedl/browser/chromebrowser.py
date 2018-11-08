@@ -16,17 +16,18 @@ class ChromeBrowser(BaseBrowser):
     """
     Class to retrieve bookmarks from google chrome browser
     """
-    def __init__(self, bookmarks_path=None, user="Default"):
+
+    def __init__(self, bookmarks_path=None, user="Default", folder_name=None):
         self.__url_list = list()
         self.__bookmarks_json = None
         self.user = user
         self.__bookmarks_path = bookmarks_path
+        self.folder_name = folder_name
 
     @property
     def bookmarks_path(self):
-        if self.__bookmarks_path:
-            return self.__bookmarks_path
-        self.__bookmarks_path = self._get_bookmarks_path()
+        if not self.__bookmarks_path:
+            self.__bookmarks_path = self._get_bookmarks_path()
         return self.__bookmarks_path
 
     def _get_bookmarks_path(self):
@@ -55,17 +56,17 @@ class ChromeBrowser(BaseBrowser):
         :param folder_name:
         :return:
         """
-        folder_data = self.find_folder_in_bookmarks(folder_name, self.bookmarks)
+        folder_data = self.__find_folder_in_bookmarks(folder_name, self.bookmarks)
         if not folder_data:
             raise IndexError(f"Bookmarks does not have '{folder_name}' folder")
         return folder_data
 
-    def find_folder_in_bookmarks(self, folder_name, bookmarks):
+    def __find_folder_in_bookmarks(self, folder_name, bookmarks):
         for bookmark in bookmarks:
             if bookmark.get('type') == 'folder' and bookmark.get('name') == folder_name:
                 return bookmark.get('children')
             elif bookmark.get('type') == 'folder':
-                result = self.find_folder_in_bookmarks(folder_name, bookmark.get('children'))
+                result = self.__find_folder_in_bookmarks(folder_name, bookmark.get('children'))
                 if result:
                     return result
 
@@ -86,7 +87,10 @@ class ChromeBrowser(BaseBrowser):
             LOGGER.debug(name, url)
         return list(urls_data.values())
 
+    def get_urls(self):
+        return self.get_youtube_urls_from_folder(self.folder_name)
+
 
 if __name__ == '__main__':
-    c = ChromeBrowser()
-    print(c.get_youtube_urls_from_folder("Music"))
+    c = ChromeBrowser(folder_name="Music")
+    print(c.get_urls())
