@@ -1,6 +1,7 @@
 from urllib.error import HTTPError
 
 import musicbrainzngs
+
 from llamedl.tags.basetags import BaseTags
 
 musicbrainzngs.set_useragent('LLameDL', '0.1', 'http://github.com/music')

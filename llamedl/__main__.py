@@ -8,10 +8,10 @@ from llamedl.downloaders.youtubedownloader import YouTubeDownloader
 from llamedl.tags.filetags import FileTags
 from llamedl.tags.lastfmtags import LastFmTags
 from llamedl.tags.musicbrainzgstags import MusicbrainzgsTags
-
 # if __name__ == '__main__':
 #     llamedl = LLameDL()
 #     llamedl.main()
+from llamedl.tags.tagger import Tagger
 
 providers_map = {
     'chrome': ChromeBrowser
@@ -48,53 +48,41 @@ parser.add_argument('--browser_user', default=None)
 parser.add_argument('--download_directory', default=None, help='Directory where audio files will be saved')
 
 x = parser.parse_args(sys.argv[1:])
-print(x)
-
-url_provider = get_url_provider(provider=x.url_provider, bookmark_folder_name=x.bookmark_folder_name,
-                                bookmarks_path=x.bookmarks_path, browser_user=x.browser_user, url=x.url)
-print(url_provider)
-
-taggers = get_taggers(file_tags=x.file_tags)
-print(taggers)
-
-download_directory = '{}/Music'.format(os.getenv('HOME')) if not x.download_directory else x.download_directory
 
 
-class Tagger:
-    def __init__(self, taggers, whitelist_flag=True):
-        """taggers: List[BaseTags]"""
-        self.taggers = taggers
-        self.whitelist_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'whitelist.cfg')
-        self.whitelist_flag = whitelist_flag
-        self._whitelist = None
-
-    def get_tags_for_artist(self, artist):
-        tags = self.get_tags_from_tags_providers(artist)
-        if self.whitelist_flag:
-            return self.filter_tags(tags)
-        else:
-            return tags
-
-    def get_tags_from_tags_providers(self, artist):
-        tags = []
-        for tagger in self.taggers:
-            tags.extend(tagger.get_tags(artist))
-        return list(set(tags))
-
-    def filter_tags(self, tags_list):
-        filtered_tags = [tag for tag in tags_list if tag.lower() in self.whitelist]
-        return filtered_tags
+class LlameDL:
+    def __init__(self, arguments):
+        self.args = arguments
+        self._url_provider = None
+        self._tagger = None
+        self._download_directory = None
 
     @property
-    def whitelist(self):
-        if not self._whitelist:
-            self._whitelist = self.load_whitelist()
-        return self._whitelist
+    def tagger(self):
+        if not self._tagger:
+            taggers_list = get_taggers(file_tags=self.args.file_tags)
+            self._tagger = Tagger(taggers=taggers_list)
+        return self._tagger
 
-    def load_whitelist(self):
-        with open(self.whitelist_path) as file:
-            return file.read().splitlines()
+    @property
+    def url_provider(self):
+        if not self._url_provider:
+            self._url_provider = get_url_provider(provider=self.args.url_provider,
+                                                  bookmark_folder_name=self.args.bookmark_folder_name,
+                                                  bookmarks_path=self.args.bookmarks_path,
+                                                  browser_user=self.args.browser_user, url=self.args.url)
+        return self._url_provider
+
+    @property
+    def download_directory(self):
+        if not self._download_directory:
+            self._download_directory = '{}/Music'.format(
+                os.getenv('HOME')) if not x.download_directory else x.download_directory
+        return self._download_directory
+
+    def download(self):
+        for url in self.url_provider.get_urls():
+            self.download_song()
 
 
-t = Tagger(taggers)
-print(t.get_tags_for_artist('Skrillex'))
+LlameDL(x)

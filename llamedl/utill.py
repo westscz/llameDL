@@ -65,29 +65,14 @@ def capitalize_first_char(string):
     :param string:
     :return:
     """
-    return string[:1].upper()+string[1:]
+    return string[:1].upper() + string[1:]
 
 
 class YTLogger:
     """Simple logger for IYouTube purpose."""
 
-    def debug(self, msg):
-        """
+    def debug(self, msg): pass
 
-        :param msg:
-        :return:
-        """
+    def warning(self, msg): pass
 
-    def warning(self, msg):
-        """
-
-        :param msg:
-        :return:
-        """
-
-    def error(self, msg):
-        """
-
-        :param msg:
-        :return:
-        """
+    def error(self, msg): pass
