@@ -6,8 +6,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
+- New abstraction layer for URL providers
+    - User provider URL
+    - URL from Chrome
+    - Opportunity to implement other providers
+- New abstraction layer for Downloaders
+    - Download from YouTube
+    - Opportunity to implement other downloaders
+- New abstraction layer for Tag providers
+    - Tags from musicbrainzgs
+    - Tags from LastFM
+    - Tags from file with artist-tags map
 - CHANGES file with all changes between releases
-- Old tags from v0.0.1 to v0.0.x
+- Old tags from v0.0.1 to v0.0.4 created
+
+### Changed
+- Getting urls from Chrome is not default action anymore
+
+## v0.0.4 2018-04-15
+### Added
+- CLI for llameDL and llameTagger
+- Setup.py with entry points
+
+### Changed
+- Regex for youtube videos titles
+- Scrutinizer setup
 
 ## v0.0.3 2018-04-09
 ### Added
