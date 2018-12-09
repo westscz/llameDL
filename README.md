@@ -10,10 +10,54 @@
 
 YouTube to MP3 converter with adding tags
 
-Install:
+## Project structure
+
+    ├── CHANGES.md
+    ├── llamedl
+    │   ├── browser
+    │   │   ├── basebrowser.py
+    │   │   ├── chromebrowser.py
+    │   │   └── urlprovider.py
+    │   ├── downloaders
+    │   │   ├── basedownloader.py
+    │   │   └── youtubedownloader.py
+    │   ├── llame.py
+    │   ├── __main__.py
+    │   ├── tagger.py
+    │   ├── tags
+    │   │   ├── basetags.py
+    │   │   ├── filetags.py
+    │   │   ├── lastfmtags.py
+    │   │   ├── musicbrainzgstags.py
+    │   │   └── tagger.py
+    │   ├── utill.py
+    │   └── whitelist.cfg
+    ├── logo.png
+    ├── MANIFEST.in
+    ├── README.md
+    ├── requirements-dev.txt
+    ├── requirements.txt
+    ├── setup.cfg
+    ├── setup.py
+    └── tests
+        ├── __init__.py
+        ├── providers
+        │   └── test_url_provider.py
+        ├── tags
+        │   └── test_file_tags.py
+        ├── test_chromebrowser.py
+        ├── test_iyoutube.py
+        ├── test_tagger.py
+        └── test_utill.py
+
+
+## Install
 - pip install -r requirements.txt
 - ffprobe or avprobe
 
-Use:
+
+## Use
+llameDL is provided with CLI, installed using entry-points in setup.py
+
 - llamedl
 - llametagger
