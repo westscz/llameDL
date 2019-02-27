@@ -3,6 +3,7 @@
     ~~~~~~~~~~~~~~~~~~~
 """
 import youtube_dl
+
 from llamedl.utill import YTLogger, create_filename, create_logger
 
 LOGGER = create_logger('YouTube')
@@ -36,7 +37,7 @@ class YouTubeDownloader:
 
     @url_info.setter
     def url_info(self, video_url):
-        print(video_url)
+        # print(video_url)
         self.__url = video_url
         try:
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
@@ -86,11 +87,13 @@ class YouTubeDownloader:
         :return: filename?
         """
         video_url = self.__url if not video_url else video_url
+        self.url_info = video_url
         try:
             filename = self.get_title()
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                 self.__update_ydl_template(ydl, filename)
                 if not ydl.download([video_url]):
+                    pass
                     LOGGER.info('"%s" Downloaded correctly!', filename)
                 return True
         except youtube_dl.utils.DownloadError:

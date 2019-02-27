@@ -18,7 +18,7 @@ class ChromeBrowser(BaseBrowser):
     def __init__(self, bookmarks_path=None, user='Default', folder_name=None):
         self.__url_list = list()
         self.__bookmarks_json = None
-        self.user = user
+        self.user = user if user is not None else 'Default'
         self.__bookmarks_path = bookmarks_path
         self.folder_name = folder_name
 
@@ -42,7 +42,7 @@ class ChromeBrowser(BaseBrowser):
 
         :return:
         """
-        print(self.bookmarks_path)
+        LOGGER.debug(self.bookmarks_path)
         with open(self.bookmarks_path) as json_data:
             data = json.load(json_data)
             self.__bookmarks_json = data.get('roots').get('bookmark_bar').get('children')
@@ -82,7 +82,7 @@ class ChromeBrowser(BaseBrowser):
                 urls_data[name] = url
         LOGGER.info('I found %s urls', str(len(urls_data)))
         for name, url in urls_data.items():
-            LOGGER.debug(name, url)
+            LOGGER.debug("Title: {} Url: {}".format(name, url))
         return list(urls_data.values())
 
     def get_urls(self):
