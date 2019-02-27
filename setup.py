@@ -9,7 +9,7 @@ def read(fname):
 
 setup(
     name='LlameDL',
-    version='0.1.0',
+    version='1.0.0',
     author='Jaroslaw Piszczala',
     author_email='jaroslawpiszczala@gmail.com',
     description=('Download music from YouTube and add tags'),
@@ -33,4 +33,5 @@ setup(
         'Programming Language :: Python 3',
         'Topic :: Multimedia :: Audio'
     ],
+    test_suite = 'tests'
 )
