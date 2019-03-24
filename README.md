@@ -1,8 +1,9 @@
 # llameDL
-<p align="center"><img src="/img/logo.png"/>llama</p>
- 
 
-![llameDL logo](media/logo.png) llameDL 
+<p align="center"><img src="/media/logo.png"/></p>
+<p align="center">YouTube to MP3 converter with adding tags</p>
+
+![LlameDL Version](https://img.shields.io/badge/llameDL-0.2.0-blue.svg)
 [![Build Status](https://travis-ci.org/westscz/llameDL.svg?branch=master)](https://travis-ci.org/westscz/llameDL)
 ![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)
 [![Code Coverage](https://scrutinizer-ci.com/g/westscz/llameDL/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/westscz/llameDL/?branch=master)
@@ -10,9 +11,6 @@
 [![Scrutinize Status](https://scrutinizer-ci.com/g/westscz/llameDL/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/westscz/llameDL/)
 
 
-**UNDER CONSTRUCTION**
-
-YouTube to MP3 converter with adding tags
 
 ## Install
 - pip install -r requirements.txt
