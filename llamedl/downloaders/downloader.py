@@ -19,7 +19,6 @@ class Downloader:
         if not urls:
             return 1
         url_gen = tqdm(urls, desc="Download start")
-        # url_gen.set_description()
         for url in url_gen:
             progresslogger.push_logger(url_gen)
             filename = self._download_song(url)

@@ -81,7 +81,7 @@ class Tagger:
         for tagger in self.taggers_map:
             tags.extend(tagger.get_tags(artist))
         if not tags:
-            LOGGER.info(f'Tags for "{artist}" are not available. Find more informations in help')
+            LOGGER.debug(f'Tags for "{artist}" are not available. Find more informations in help')
         return list(set(tags))
 
     def get_tags(self, artist_name):
@@ -97,7 +97,7 @@ class Tagger:
 
         tag_list = self.get_tags_from_tags_providers(artist_name)
         tags_list = self.filter_tags(tag_list)
-        LOGGER.info('%s %s', artist_name, str(tags_list))
+        LOGGER.debug('%s %s', artist_name, str(tags_list))
         tags_list.sort()
         return '\\'.join(tags_list)
 

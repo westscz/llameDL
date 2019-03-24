@@ -105,7 +105,7 @@ class YouTubeDownloader:
                 self.__update_ydl_template(ydl, filename)
                 if not ydl.download([video_url]):
                     pass
-                    LOGGER.info('"%s" Downloaded correctly!', filename)
+                    LOGGER.debug('"%s" Downloaded correctly!', filename)
                 return filename
         except youtube_dl.utils.DownloadError:
             return ""

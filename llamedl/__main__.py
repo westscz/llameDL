@@ -64,8 +64,11 @@ class LlameDLFire:
                 "Please add issue on github and use 'llamedl file' option instead")
             return
         provider = provider('', user, folder_name)
+        LOGGER.info("Downloading start")
         downloaded_files = self._download_engine.download(provider)
+        LOGGER.info("Downloading done, tagging start")
         self._tag_engine.add_tags_to_files(downloaded_files)
+        LOGGER.info("Tagging done")
 
     def bookmark(self, path, folder_name='Music'):
         """

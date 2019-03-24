@@ -64,7 +64,7 @@ class ChromeUrl(BaseUrl, BaseBrowser):
             if 'youtube' in url:
                 name = node.get('name', '')
                 urls_data[name] = url
-        LOGGER.info('I found %s urls', str(len(urls_data)))
+        LOGGER.debug('I found %s urls', str(len(urls_data)))
         for name, url in urls_data.items():
             LOGGER.debug("Title: {} Url: {}".format(name, url))
         return list(urls_data.values())
