@@ -9,7 +9,7 @@ def read(fname):
 
 setup(
     name='LlameDL',
-    version='1.0.0',
+    version='0.2.0',
     author='Jaroslaw Piszczala',
     author_email='jaroslawpiszczala@gmail.com',
     description=('Download music from YouTube and add tags'),

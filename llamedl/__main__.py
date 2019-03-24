@@ -48,7 +48,7 @@ class LlameDLFire:
         downloaded_files = self._download_engine.download(provider)
         self._tag_engine.add_tags_to_files(downloaded_files)
 
-    def browser(self, browser='Chrome', folder_name='Music', user='Default'):
+    def browser(self, browser, folder_name='Music', user='Default'):
         """
         Download music from urls based on browser bookmarks
 

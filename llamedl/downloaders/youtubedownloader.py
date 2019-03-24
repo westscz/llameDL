@@ -3,7 +3,6 @@
     ~~~~~~~~~~~~~~~~~~~
 """
 import youtube_dl
-from tqdm import tqdm
 
 from llamedl.progress_logger import progresslogger
 from llamedl.utill import YTLogger, create_filename, create_logger
@@ -29,32 +28,27 @@ class YouTubeDownloader:
         self.__url = None
         self.download_directory = download_directory
 
-    @property
-    def url_info(self):
-        """
+    def get_url_info(self, video_url):
+        if self.__url == video_url:
+            return self.__url_info
+        else:
+            self.__url = video_url
+            try:
+                with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
+                    self.__url_info = ydl.extract_info(video_url, download=False)
+            except youtube_dl.utils.DownloadError as error:
+                LOGGER.debug(error.exc_info[1])
+                self.__url_info = None
+            return self.__url_info
 
-        :return:
-        """
-        return self.__url_info
-
-    @url_info.setter
-    def url_info(self, video_url):
-        # print(video_url)
-        self.__url = video_url
-        try:
-            with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
-                self.__url_info = ydl.extract_info(video_url, download=False)
-        except youtube_dl.utils.DownloadError as error:
-            LOGGER.debug(error.exc_info[1])
-            self.__url_info = None
-
-    def get_title(self):
+    def get_title(self, url):
         """Get title for video from url given to url_info. Original title will
         be fixed, and neccessary descriptions will be removed.
 
         :return: Refactored title
         """
-        return create_filename(self.url_info.get('title'))
+        url_info = self.get_url_info(url)
+        return create_filename(url_info.get('title'))
 
     def verify_url(self, url):
         """
@@ -62,35 +56,40 @@ class YouTubeDownloader:
         :param url:
         :return:
         """
-        self.url_info = url
-        return self.get_playlist() if self.is_playlist() else [url]
+        return self.get_playlist(url) if self.is_playlist(url) else [url]
 
-    def is_playlist(self):
+    def is_playlist(self, url):
         """Check if url is a playlist.
 
         :return:
         """
-        return False if not self.url_info.get('_type') else True
+        url_info = self.get_url_info(url)
+        return False if not url_info.get('_type') else True
 
-    def get_playlist(self):
+    def get_playlist(self, url):
         """Get url of all videos in playlist.
 
         :return: List of urls from playlist
         """
+        url_info = self.get_url_info(url)
         try:
-            return [entry.get('webpage_url') for entry in self.url_info.get('entries')]
+            return [entry.get('webpage_url') for entry in url_info.get('entries')]
         except TypeError:
             return []
 
     def download(self, video_url):
-        self.url_info = video_url
-        l = []
-        if self.is_playlist():
-            for url in tqdm(self.get_playlist()):
-                l.append(self.download_mp3(url))
+        self.get_url_info(video_url)
+        downloaded = []
+        if self.is_playlist(video_url):
+            progresslogger.info("Download playlist")
+            playlist = self.get_playlist(video_url)
+            progresslogger.change_size(len(playlist))
+            for url in playlist:
+                downloaded.append(self.download_mp3(url))
+                progresslogger.__iadd__(1)
         else:
-            l.append(self.download_mp3(video_url))
-        return l
+            downloaded.append(self.download_mp3(video_url))
+        return downloaded
 
     def download_mp3(self, video_url=None):
         """Download video from youtube and convert to mp3 format.
@@ -98,10 +97,9 @@ class YouTubeDownloader:
         :param video_url: Url to youtube video
         :return: filename?
         """
-        video_url = self.__url if not video_url else video_url
-        self.url_info = video_url
+        url_info = self.get_url_info(video_url)
         try:
-            filename = self.get_title()
+            filename = self.get_title(video_url)
             progresslogger.info(filename)
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                 self.__update_ydl_template(ydl, filename)

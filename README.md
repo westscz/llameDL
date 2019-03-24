@@ -1,4 +1,8 @@
-# ![llameDL logo](logo.png) llameDL 
+# llameDL
+<p align="center"><img src="/img/logo.png"/>llama</p>
+ 
+
+![llameDL logo](media/logo.png) llameDL 
 [![Build Status](https://travis-ci.org/westscz/llameDL.svg?branch=master)](https://travis-ci.org/westscz/llameDL)
 ![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)
 [![Code Coverage](https://scrutinizer-ci.com/g/westscz/llameDL/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/westscz/llameDL/?branch=master)
@@ -23,6 +27,8 @@ llameDL is provided with CLI, installed using entry-points in setup.py
 To download songs from browser bookmarks
 
     llamedl browser 
+    
+<p align="center"><img src="/media/browser-demo.gif?raw=true"/></p>
     
 To download song from bookmarks file
 
