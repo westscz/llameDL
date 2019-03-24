@@ -3,10 +3,12 @@
     ~~~~~~~~~~~~~~~~~~~
 """
 import youtube_dl
+from tqdm import tqdm
 
+from llamedl.progress_logger import progresslogger
 from llamedl.utill import YTLogger, create_filename, create_logger
 
-LOGGER = create_logger('YouTube')
+LOGGER = create_logger(__name__)
 
 
 class YouTubeDownloader:
@@ -80,6 +82,16 @@ class YouTubeDownloader:
         except TypeError:
             return []
 
+    def download(self, video_url):
+        self.url_info = video_url
+        l = []
+        if self.is_playlist():
+            for url in tqdm(self.get_playlist()):
+                l.append(self.download_mp3(url))
+        else:
+            l.append(self.download_mp3(video_url))
+        return l
+
     def download_mp3(self, video_url=None):
         """Download video from youtube and convert to mp3 format.
 
@@ -90,17 +102,19 @@ class YouTubeDownloader:
         self.url_info = video_url
         try:
             filename = self.get_title()
+            progresslogger.info(filename)
             with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                 self.__update_ydl_template(ydl, filename)
                 if not ydl.download([video_url]):
                     pass
                     LOGGER.info('"%s" Downloaded correctly!', filename)
-                return True
+                return filename
         except youtube_dl.utils.DownloadError:
-            return False
+            return ""
 
-    def __update_ydl_template(self, ydl, filename):
-        out_template = r"{}/{}.%(ext)s".format(self.download_directory, filename)
+    def __update_ydl_template(self, ydl, filename, format='mp3'):
+        out_template = r"{}/{}.{}".format(self.download_directory, filename, format)
         LOGGER.debug(out_template)
         self.ydl_opts['outtmpl'] = out_template
         ydl.params.update(self.ydl_opts)
+        return out_template

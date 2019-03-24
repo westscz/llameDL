@@ -1,10 +1,10 @@
 import unittest
 
-from llamedl.browser.urlprovider import UrlProvider
+from llamedl.urlproviders.userurl import UserUrl
 
 
-class TestUrlProvider(unittest.TestCase):
+class TestUserUrl(unittest.TestCase):
     def test_get_urls(self):
         url = 'http://foo.bar'
-        obj = UrlProvider(url)
+        obj = UserUrl(url)
         self.assertDictEqual({'User url': url}, obj.get_urls())

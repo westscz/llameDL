@@ -6,20 +6,21 @@ import json
 import os
 import subprocess
 
-from llamedl.browser.basebrowser import BaseBrowser
+from llamedl.urlproviders.basebrowser import BaseBrowser
+from llamedl.urlproviders.baseurl import BaseUrl
 from llamedl.utill import create_logger
 
 LOGGER = create_logger(__name__)
 
 
-class ChromeBrowser(BaseBrowser):
-    """Class to retrieve bookmarks from google chrome browser."""
+class ChromeUrl(BaseUrl, BaseBrowser):
+    """Class to retrieve bookmarks from google chrome urlproviders."""
 
-    def __init__(self, bookmarks_path=None, user='Default', folder_name=None):
+    def __init__(self, bookmarks_path=None, user=None, folder_name=None):
         self.__url_list = list()
         self.__bookmarks_json = None
-        self.user = user if user is not None else 'Default'
         self.__bookmarks_path = bookmarks_path
+        self.user = user if user is not None else 'Default'
         self.folder_name = folder_name
 
     @property
@@ -27,14 +28,6 @@ class ChromeBrowser(BaseBrowser):
         if not self.__bookmarks_path:
             self.__bookmarks_path = self._get_bookmarks_path()
         return self.__bookmarks_path
-
-    def _get_bookmarks_path(self):
-        output = subprocess.check_output(['which', 'chromium']).decode('utf-8')
-        env_home_path = os.getenv('HOME')
-        if 'snap' in output:
-            return f'{env_home_path}/snap/chromium/current/.config/chromium/{self.user}/Bookmarks'
-        else:
-            return f'{env_home_path}/.config/chromium/{self.user}/Bookmarks'
 
     @property
     def bookmarks(self):
@@ -47,6 +40,34 @@ class ChromeBrowser(BaseBrowser):
             data = json.load(json_data)
             self.__bookmarks_json = data.get('roots').get('bookmark_bar').get('children')
         return self.__bookmarks_json
+
+    def get_urls(self):
+        return self.get_youtube_urls_from_folder(self.folder_name)
+
+    def _get_bookmarks_path(self):
+        output = subprocess.check_output(['which', 'chromium']).decode('utf-8')
+        env_home_path = os.getenv('HOME')
+        if 'snap' in output:
+            return f'{env_home_path}/snap/chromium/current/.config/chromium/{self.user}/Bookmarks'
+        else:
+            return f'{env_home_path}/.config/chromium/{self.user}/Bookmarks'
+
+    def get_youtube_urls_from_folder(self, folder_name):
+        """TBD.
+
+        :param folder_name: Folder name in chrome bookmarks
+        :return:
+        """
+        urls_data = {}
+        for node in self.get_folder(folder_name):
+            url = node.get('url', '')
+            if 'youtube' in url:
+                name = node.get('name', '')
+                urls_data[name] = url
+        LOGGER.info('I found %s urls', str(len(urls_data)))
+        for name, url in urls_data.items():
+            LOGGER.debug("Title: {} Url: {}".format(name, url))
+        return list(urls_data.values())
 
     def get_folder(self, folder_name):
         """TBD.
@@ -68,27 +89,7 @@ class ChromeBrowser(BaseBrowser):
                 if result:
                     return result
 
-    def get_youtube_urls_from_folder(self, folder_name):
-        """TBD.
-
-        :param folder_name: Folder name in chrome bookmarks
-        :return:
-        """
-        urls_data = {}
-        for node in self.get_folder(folder_name):
-            url = node.get('url', '')
-            if 'youtube' in url:
-                name = node.get('name', '')
-                urls_data[name] = url
-        LOGGER.info('I found %s urls', str(len(urls_data)))
-        for name, url in urls_data.items():
-            LOGGER.debug("Title: {} Url: {}".format(name, url))
-        return list(urls_data.values())
-
-    def get_urls(self):
-        return self.get_youtube_urls_from_folder(self.folder_name)
-
 
 if __name__ == '__main__':
-    c = ChromeBrowser(folder_name='Music')
+    c = ChromeUrl(folder_name='Music')
     print(c.get_urls())

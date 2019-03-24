@@ -1,6 +1,6 @@
 import requests
 
-from llamedl.tags.basetags import BaseTags
+from llamedl.tagsproviders.basetags import BaseTags
 
 
 class LastFmTags(BaseTags):
@@ -15,3 +15,8 @@ class LastFmTags(BaseTags):
             return []
         tags = response.json().get('artist').get('tags').get('tag', [])
         return [tag.get('name').title() for tag in tags]
+
+
+if __name__ == '__main__':
+    o = LastFmTags()
+    o.get_tags("Infected Mushroom")

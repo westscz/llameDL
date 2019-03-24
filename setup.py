@@ -16,8 +16,8 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'llamedl = llamedl.LLameDL:main',
-            'llametagger = llamedl.tagger:main',
+            'llamedl = llamedl.__main__:llamedl_cli',
+            'llametagger = llamedl.tagsproviders.tagger:tagger_cli',
         ],
 
     },
@@ -33,5 +33,5 @@ setup(
         'Programming Language :: Python 3',
         'Topic :: Multimedia :: Audio'
     ],
-    test_suite = 'tests'
+    test_suite='tests'
 )

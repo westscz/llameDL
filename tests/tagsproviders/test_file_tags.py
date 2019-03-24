@@ -1,6 +1,6 @@
 import unittest
 
-from llamedl.tags.filetags import FileTags
+from llamedl.tagsproviders.filetags import FileTags
 
 
 class TestFileTags(unittest.TestCase):

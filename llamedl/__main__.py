@@ -1,94 +1,92 @@
-import argparse
 import os
-import sys
 
-import tqdm
+import fire
 
-from llamedl.browser.chromebrowser import ChromeBrowser
-from llamedl.browser.urlprovider import UrlProvider
-from llamedl.downloaders.youtubedownloader import YouTubeDownloader
-from llamedl.tags.filetags import FileTags
-from llamedl.tags.lastfmtags import LastFmTags
-from llamedl.tags.musicbrainzgstags import MusicbrainzgsTags
-from llamedl.tags.tagger import Tagger
+from llamedl.downloaders.downloader import Downloader
+from llamedl.tagsproviders.tagger import Tagger
+from llamedl.urlproviders.chromeurls import ChromeUrl
+from llamedl.urlproviders.netscapefileurl import NetscapeFileUrl
+from llamedl.urlproviders.userurl import UserUrl
+from llamedl.utill import create_logger
 
-providers_map = {
-    'chrome': ChromeBrowser
-}
-
-downloaders_map = {
-    'youtube': YouTubeDownloader
-}
-
-taggers_map = [LastFmTags(), MusicbrainzgsTags()]
+LOGGER = create_logger("LlameDL")
 
 
-def get_url_provider(provider, bookmark_folder_name, bookmarks_path, browser_user, url):
-    provider = providers_map.get(provider.lower(), None)
-    if not provider:
-        return UrlProvider(url)
-    return provider(bookmarks_path, browser_user, bookmark_folder_name)
+class LlameDLFire:
+    """
+     _     _                      ____  _
+    | |   | | __ _ _ __ ___   ___|  _ \| |
+    | |   | |/ _` | '_ ` _ \ / _ \ | | | |
+    | |___| | (_| | | | | | |  __/ |_| | |___
+    |_____|_|\__,_|_| |_| |_|\___|____/|_____|
+
+    Download your music from URLs
+    Use -- --help flag for more information
+
+    """
+
+    def __init__(self, tags_file="", download_directory=""):
+        """
+        :param tags_file: Path to YAML file with artist:tags variables
+        :param download_directory: Directory where audio files will be saved
+        """
+        download_directory = '{}/Music'.format(os.getenv('HOME')) if not download_directory else download_directory
+        self._download_engine = Downloader(download_directory)
+        self._tag_engine = Tagger(download_directory, tags_file)
+        self._providers_map = {
+            'chrome': ChromeUrl
+        }
+
+    def playlist(self, url):
+        """
+        Download music from url
+
+        :param url: Playlist url
+        :return:
+        """
+        provider = UserUrl(url)
+        downloaded_files = self._download_engine.download(provider)
+        self._tag_engine.add_tags_to_files(downloaded_files)
+
+    def browser(self, browser='Chrome', folder_name='Music', user='Default'):
+        """
+        Download music from urls based on browser bookmarks
+
+        :param browser: Type of url provider, available: Chrome
+        :param folder_name: Folder name in bookmarks
+        :param user: Browser user
+        :return:
+        """
+        provider = self._providers_map.get(browser.lower(), None)
+        if provider is None:
+            LOGGER.error(
+                "Your browser is not supported yet. "
+                "Please add issue on github and use 'llamedl file' option instead")
+            return
+        provider = provider('', user, folder_name)
+        downloaded_files = self._download_engine.download(provider)
+        self._tag_engine.add_tags_to_files(downloaded_files)
+
+    def bookmark(self, path, folder_name='Music'):
+        """
+        Download music from urls based on bookmark file in Netscape format.
+        More information here: https://msdn.microsoft.com/en-us/ie/aa753582(v=vs.94)
+
+        :param path: Path to bookmarks file in Netscape format
+        :param folder_name: Folder name in bookmarks
+        :return:
+        """
+        provider = NetscapeFileUrl(path, folder_name)
+        downloaded_files = self._download_engine.download(provider)
+        self._tag_engine.add_tags_to_files(downloaded_files)
+
+    def help(self):
+        print(self.__doc__)
 
 
-def get_taggers(file_tags):
-    if file_tags:
-        return taggers_map + [FileTags(file_tags)]
-    return taggers_map
+def llamedl_cli():
+    fire.Fire(LlameDLFire)
 
-
-class LlameDL:
-    def __init__(self, arguments):
-        self.args = arguments
-        self._url_provider = None
-        self._tagger = None
-        self._download_directory = None
-
-    @property
-    def tagger(self):
-        if not self._tagger:
-            taggers_list = get_taggers(file_tags=self.args.file_tags)
-            self._tagger = Tagger(taggers=taggers_list)
-        return self._tagger
-
-    @property
-    def url_provider(self):
-        if not self._url_provider:
-            self._url_provider = get_url_provider(provider=self.args.url_provider,
-                                                  bookmark_folder_name=self.args.bookmark_folder_name,
-                                                  bookmarks_path=self.args.bookmarks_path,
-                                                  browser_user=self.args.browser_user, url=self.args.url)
-        return self._url_provider
-
-    @property
-    def download_directory(self):
-        if not self._download_directory:
-            self._download_directory = '{}/Music'.format(
-                os.getenv('HOME')) if not arguments.download_directory else arguments.download_directory
-        return self._download_directory
-
-    def download(self):
-        urls = tqdm.tqdm(self.url_provider.get_urls())
-        for url in urls:
-            urls.set_description("Downloading: {}".format(url))
-            self.download_song(url)
-
-    def download_song(self, url):
-        for key, downloader in downloaders_map.items():
-            if key in url:
-                downloader(self.download_directory).download_mp3(url)
-
-
-parser = argparse.ArgumentParser(prog='LlameDL')
-
-parser.add_argument('--file_tags', help='Path to YAML file with artist:tags variables')
-parser.add_argument('--url', help='Audio url', default=None)
-parser.add_argument('--url_provider', help='Type of url provider, available: Chrome', default=None)
-parser.add_argument('--bookmark_folder_name', default='Music')
-parser.add_argument('--bookmarks_path', help='Only if you have bookmarks file', default=None)
-parser.add_argument('--browser_user', default=None)
-parser.add_argument('--download_directory', default=None, help='Directory where audio files will be saved')
-
-arguments = parser.parse_args(sys.argv[1:])
 
 if __name__ == '__main__':
-    LlameDL(arguments).download()
+    llamedl_cli()

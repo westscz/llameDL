@@ -5,7 +5,8 @@
 import unittest
 
 import mock
-from llamedl.tagger import Tagger
+
+from llamedl.tagsproviders.tagger import Tagger
 
 
 class DummyEasyID3():
