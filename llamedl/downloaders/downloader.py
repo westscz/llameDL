@@ -9,9 +9,7 @@ from llamedl.progress_logger import progresslogger
 class Downloader:
     def __init__(self, download_directory):
         self._download_directory = download_directory
-        self.downloaders_map = {
-            'youtube': YouTubeDownloader(self.download_directory)
-        }
+        self.downloaders_map = {"youtube": YouTubeDownloader(self.download_directory)}
 
     def download(self, provider):
         downloaded_urls = []
@@ -34,5 +32,5 @@ class Downloader:
     @property
     def download_directory(self):
         if not self._download_directory:
-            self._download_directory = '{}/Music'.format(os.getenv('HOME'))
+            self._download_directory = "{}/Music".format(os.getenv("HOME"))
         return self._download_directory

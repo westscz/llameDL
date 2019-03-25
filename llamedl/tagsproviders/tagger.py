@@ -22,10 +22,10 @@ LOGGER = create_logger(__name__)
 class Tagger:
     def __init__(self, download_directory, file_tags):
         self._file_tags = file_tags
-        self.taggers_map = [LastFmTags(),
-                            MusicbrainzngsTags(),
-                            FileTags(file_tags)]
-        self.whitelist_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'whitelist.cfg')
+        self.taggers_map = [LastFmTags(), MusicbrainzngsTags(), FileTags(file_tags)]
+        self.whitelist_path = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), "whitelist.cfg"
+        )
         self.whitelist = []
         self.download_directory = download_directory
 
@@ -51,9 +51,9 @@ class Tagger:
         :return:
         """
         LOGGER.debug(f'Process "{filename}"')
-        filepath = os.path.join(folder_path, filename + '.mp3')
+        filepath = os.path.join(folder_path, filename + ".mp3")
         audio = self.get_id3_object(filepath)
-        if audio.get('genre', False) and not force:
+        if audio.get("genre", False) and not force:
             return None
         tags = self.generate_new_id3_values(filename)
         audio.update(tags)
@@ -70,10 +70,17 @@ class Tagger:
 
     def generate_new_id3_values(self, filename):
         tags = change_string_to_tags(filename)
-        genres = self.get_tags(tags.get('artist'))
+        genres = self.get_tags(tags.get("artist"))
         year = str(time.gmtime()[0])
-        tags.update({'genre': genres, 'date': year, 'album': year,
-                     'albumartist': 'VA', 'copyright': 'LlameDL'})
+        tags.update(
+            {
+                "genre": genres,
+                "date": year,
+                "album": year,
+                "albumartist": "VA",
+                "copyright": "LlameDL",
+            }
+        )
         return tags
 
     def get_tags_from_tags_providers(self, artist):
@@ -81,7 +88,9 @@ class Tagger:
         for tagger in self.taggers_map:
             tags.extend(tagger.get_tags(artist))
         if not tags:
-            LOGGER.debug(f'Tags for "{artist}" are not available. Find more informations in help')
+            LOGGER.debug(
+                f'Tags for "{artist}" are not available. Find more informations in help'
+            )
         return list(set(tags))
 
     def get_tags(self, artist_name):
@@ -92,14 +101,14 @@ class Tagger:
         :param artist_name:
         :return:
         """
-        if artist_name == 'Unknown':
+        if artist_name == "Unknown":
             return []
 
         tag_list = self.get_tags_from_tags_providers(artist_name)
         tags_list = self.filter_tags(tag_list)
-        LOGGER.debug('%s %s', artist_name, str(tags_list))
+        LOGGER.debug("%s %s", artist_name, str(tags_list))
         tags_list.sort()
-        return '\\'.join(tags_list)
+        return "\\".join(tags_list)
 
     def filter_tags(self, tags_list):
         """Filter tags_list with whitelist and/or blacklist.
@@ -118,12 +127,13 @@ class Tagger:
         :return:
         """
         audio = ID3(filepath)
-        with open(coverpath, 'rb') as albumart:
-            audio['APIC'] = APIC(
+        with open(coverpath, "rb") as albumart:
+            audio["APIC"] = APIC(
                 encoding=3,
-                mime='image/jpeg',
-                type=3, desc=u'Cover',
-                data=albumart.read()
+                mime="image/jpeg",
+                type=3,
+                desc="Cover",
+                data=albumart.read(),
             )
         audio.save()
         return True
@@ -148,7 +158,7 @@ class TaggerFire:
 
     @staticmethod
     def parse_args(args, namespace=None):
-        parser = argparse.ArgumentParser(prog='LlameTagger')
+        parser = argparse.ArgumentParser(prog="LlameTagger")
         # parser.add_argument('path',
         #                     help='Path to directory with mp3 files')
         # parser.add_argument('-f', '--force',
@@ -166,5 +176,5 @@ def tagger_cli():
     fire.Fire(TaggerFire)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     tagger_cli()

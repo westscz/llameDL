@@ -50,7 +50,7 @@ class TestNetscapeFileUrl(unittest.TestCase):
                 "add_date": "1553249515",
                 "icon": "data:image/png;base64,",
                 "title": "Infected Mushroom & Bliss - Bliss on Mushrooms (feat. Miyavi) "
-                         "[Monstercat Release] - YouTube",
+                "[Monstercat Release] - YouTube",
                 "type": "bookmark",
                 "url": "https://www.youtube.com/watch?v=ceYKKNXFpSE",
             },

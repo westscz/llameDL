@@ -8,30 +8,26 @@ def read(fname):
 
 
 setup(
-    name='LlameDL',
-    version='0.2.0',
-    author='Jaroslaw Piszczala',
-    author_email='jaroslawpiszczala@gmail.com',
-    description=('Download music from YouTube and add tags'),
+    name="LlameDL",
+    version="0.2.0",
+    author="Jaroslaw Piszczala",
+    author_email="jaroslawpiszczala@gmail.com",
+    description="Download music from YouTube and add tags",
     include_package_data=True,
     entry_points={
-        'console_scripts': [
-            'llamedl = llamedl.__main__:llamedl_cli',
-            'llametagger = llamedl.tagsproviders.tagger:tagger_cli',
-        ],
-
+        "console_scripts": [
+            "llamedl = llamedl.__main__:llamedl_cli",
+            "llametagger = llamedl.tagsproviders.tagger:tagger_cli",
+        ]
     },
-    # license = "BSD",
-    # keywords = "example documentation tutorial",
-    # url = "http://packages.python.org/an_example_pypi_project",
-    packages=['llamedl', 'tests'],
-    package_data={'llamedl': 'whitelist.cfg'},
-    long_description=read('README.md'),
+    packages=["llamedl", "tests"],
+    package_data={"llamedl": "whitelist.cfg"},
+    long_description=read("README.md"),
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python 3',
-        'Topic :: Multimedia :: Audio'
+        "Development Status :: 3 - Alpha",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python 3",
+        "Topic :: Multimedia :: Audio",
     ],
-    test_suite='tests'
+    test_suite="tests",
 )

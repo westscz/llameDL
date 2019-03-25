@@ -15,14 +15,16 @@ class YouTubeDownloader:
 
     def __init__(self, download_directory):
         self.ydl_opts = {
-            'format': 'bestaudio/best',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '320',
-            }],
-            'outtmpl': r"XD.%(ext)s",
-            'logger': YTLogger()
+            "format": "bestaudio/best",
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "320",
+                }
+            ],
+            "outtmpl": r"XD.%(ext)s",
+            "logger": YTLogger(),
         }
         self.__url_info = None
         self.__url = None
@@ -48,7 +50,7 @@ class YouTubeDownloader:
         :return: Refactored title
         """
         url_info = self.get_url_info(url)
-        return create_filename(url_info.get('title'))
+        return create_filename(url_info.get("title"))
 
     def verify_url(self, url):
         """
@@ -64,7 +66,7 @@ class YouTubeDownloader:
         :return:
         """
         url_info = self.get_url_info(url)
-        return False if not url_info.get('_type') else True
+        return False if not url_info.get("_type") else True
 
     def get_playlist(self, url):
         """Get url of all videos in playlist.
@@ -73,7 +75,7 @@ class YouTubeDownloader:
         """
         url_info = self.get_url_info(url)
         try:
-            return [entry.get('webpage_url') for entry in url_info.get('entries')]
+            return [entry.get("webpage_url") for entry in url_info.get("entries")]
         except TypeError:
             return []
 
@@ -110,9 +112,9 @@ class YouTubeDownloader:
         except youtube_dl.utils.DownloadError:
             return ""
 
-    def __update_ydl_template(self, ydl, filename, format='mp3'):
+    def __update_ydl_template(self, ydl, filename, format="mp3"):
         out_template = r"{}/{}.{}".format(self.download_directory, filename, format)
         LOGGER.debug(out_template)
-        self.ydl_opts['outtmpl'] = out_template
+        self.ydl_opts["outtmpl"] = out_template
         ydl.params.update(self.ydl_opts)
         return out_template

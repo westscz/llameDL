@@ -1,4 +1,6 @@
-class BaseDownloader():
-    def get_url_info(self): raise NotImplementedError
+class BaseDownloader:
+    def get_url_info(self):
+        raise NotImplementedError
 
-    def download_file(self): raise NotImplementedError
+    def download_file(self):
+        raise NotImplementedError
