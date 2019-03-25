@@ -1,2 +1,3 @@
 class BaseUrl(object):
-    def get_urls(self) -> []: raise NotImplementedError
+    def get_urls(self) -> []:
+        raise NotImplementedError

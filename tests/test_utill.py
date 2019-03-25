@@ -48,7 +48,3 @@ class Test(unittest.TestCase):
     def test_create_filename__small_letters(self):
         result = create_filename('foo - bar')
         self.assertEqual('Foo - Bar', result)
-
-
-if __name__ == '__main__':
-    unittest.main()

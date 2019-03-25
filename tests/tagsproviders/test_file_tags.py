@@ -1,17 +1,30 @@
 import unittest
 
 from llamedl.tagsproviders.filetags import FileTags
+from tests.utils import create_tags_file
 
 
 class TestFileTags(unittest.TestCase):
     def setUp(self):
-        self.obj = FileTags('/foo/bar')
-        self.obj._file_content = {'foo': ['Dance', 'Pop']}
+        self.data = {"Infected Mushroom": ["Electronic", "Dubstep"]}
+        filepath = create_tags_file(self.data)
+        self.obj = FileTags(filepath)
 
     def test_get_tags__available(self):
-        result = self.obj.get_tags('foo')
-        self.assertEqual(['Dance', 'Pop'], result)
+        expected = ["Electronic", "Dubstep"]
+        result = self.obj.get_tags("Infected Mushroom")
+
+        self.assertEqual(expected, result)
 
     def test_get_tags__not_available(self):
-        result = self.obj.get_tags('bar')
-        self.assertEqual([], result)
+        expected = []
+        result = self.obj.get_tags("Deadmau5")
+
+        self.assertEqual(expected, result)
+
+    def test_get_tags__no_file(self):
+        obj = FileTags("")
+        expected = []
+        result = obj.get_tags("Infected Mushroom")
+
+        self.assertEqual(expected, result)

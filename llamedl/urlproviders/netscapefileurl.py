@@ -7,13 +7,13 @@ LOGGER = create_logger(__name__)
 
 
 class NetscapeFileUrl(BaseUrl):
-    def __init__(self, bookmarks_path, bookmark_folder_name):
+    def __init__(self, bookmarks_path, bookmark_folder_name="Music"):
         self.last_urls = None
         self.__bookmarks_json = None
         self.bookmarks_path = bookmarks_path
         self.bookmark_folder_name = bookmark_folder_name
 
-        self.url_title_name = 'title'
+        self.url_title_name = "title"
 
     def get_urls(self) -> []:
         return self.get_youtube_urls_from_folder(self.bookmark_folder_name)
@@ -31,10 +31,15 @@ class NetscapeFileUrl(BaseUrl):
 
     def __find_folder_in_bookmarks(self, folder_name, bookmarks):
         for bookmark in bookmarks:
-            if bookmark.get('type') == 'folder' and bookmark.get(self.url_title_name, None) == folder_name:
-                return bookmark.get('children')
-            elif bookmark.get('type') == 'folder':
-                result = self.__find_folder_in_bookmarks(folder_name, bookmark.get('children'))
+            if (
+                    bookmark.get("type") == "folder"
+                    and bookmark.get(self.url_title_name, None) == folder_name
+            ):
+                return bookmark.get("children")
+            elif bookmark.get("type") == "folder":
+                result = self.__find_folder_in_bookmarks(
+                    folder_name, bookmark.get("children")
+                )
                 if result:
                     return result
 
@@ -44,16 +49,16 @@ class NetscapeFileUrl(BaseUrl):
         :param folder_name: Folder name in chrome bookmarks
         :return:
         """
-        return self.__get_urls_from_folder_from_given_source(folder_name, 'youtube')
+        return self.__get_urls_from_folder_from_given_source(folder_name, "youtube")
 
     def __get_urls_from_folder_from_given_source(self, folder_name, source):
         urls_data = {}
         for node in self.get_folder(folder_name):
-            url = node.get('url', '')
+            url = node.get("url", "")
             if source in url:
-                name = node.get(self.url_title_name, '')
+                name = node.get(self.url_title_name, "")
                 urls_data[name] = url
-        LOGGER.info('I found %s urls', str(len(urls_data)))
+        LOGGER.info("I found %s urls", str(len(urls_data)))
         for name, url in urls_data.items():
             LOGGER.debug("Title: {} Url: {}".format(name, url))
         self.last_urls = urls_data
@@ -66,5 +71,5 @@ class NetscapeFileUrl(BaseUrl):
         :return:
         """
         LOGGER.debug(self.bookmarks_path)
-        self.__bookmarks_json = parse('/home/jarek/Desktop/chrome.html')
+        self.__bookmarks_json = parse(self.bookmarks_path)
         return self.__bookmarks_json

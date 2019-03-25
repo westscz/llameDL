@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 from llamedl.tagsproviders.filetags import FileTags
 from llamedl.tagsproviders.lastfmtags import LastFmTags
-from llamedl.tagsproviders.musicbrainzgstags import MusicbrainzgsTags
+from llamedl.tagsproviders.musicbrainzngstags import MusicbrainzngsTags
 from llamedl.utill import create_logger, change_string_to_tags
 
 LOGGER = create_logger(__name__)
@@ -23,7 +23,7 @@ class Tagger:
     def __init__(self, download_directory, file_tags):
         self._file_tags = file_tags
         self.taggers_map = [LastFmTags(),
-                            MusicbrainzgsTags(),
+                            MusicbrainzngsTags(),
                             FileTags(file_tags)]
         self.whitelist_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'whitelist.cfg')
         self.whitelist = []
