@@ -1,4 +1,4 @@
-image: Python 3.7.3
+image: python 3.7.3
 
 stages:
   - test
