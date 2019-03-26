@@ -14,8 +14,8 @@ matrix:
     python: "3.7-dev"
     python: "3.8-dev"
 install:
-  - pip install -r requirements-prod.txt
-  - pip install -r requirements-dev.txt
+  - pip install -r requirements/requirements-prod.txt
+  - pip install -r requirements/requirements-dev.txt
 script:
   - pytest
   - codecov --token=6b5d0835-8dcf-4847-bc72-d2659d84dc22

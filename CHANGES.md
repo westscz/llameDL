@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New abstraction layer for URL providers
     - User provider URL
     - URL from Chrome
+    - URL from Netscape formated file
 - New abstraction layer for Downloaders
     - Download from YouTube
 - New abstraction layer for Tag providers
@@ -17,10 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Tags from file with artist-tags map
 - CHANGES file with all changes between releases
 - Missing tags from v0.0.1 to v0.1.0 created
+- Integration tests
+- Demo visualisation
+- Integration with GitlabCI
 
 ### Changed
 - CLI for llameDL and llameTagger
 - Getting urls from Chrome is not default action anymore
+- Structure of tests directory
 
 ## v0.1.0 2018-04-15
 ### Added
