@@ -39,9 +39,13 @@ class YouTubeDownloader:
                 with youtube_dl.YoutubeDL(self.ydl_opts) as ydl:
                     self.__url_info = ydl.extract_info(video_url, download=False)
             except youtube_dl.utils.DownloadError as error:
-                LOGGER.debug(error.exc_info[1])
-                self.__url_info = None
+                LOGGER.error(error.exc_info[1])
+                self.__url_info = {}
             return self.__url_info
+
+    def is_url_available(self, url):
+        url_info = self.get_url_info(url)
+        return bool(url_info)
 
     def get_title(self, url):
         """Get title for video from url given to url_info. Original title will
@@ -80,26 +84,31 @@ class YouTubeDownloader:
             return []
 
     def download(self, video_url):
-        self.get_url_info(video_url)
         downloaded = []
         if self.is_playlist(video_url):
-            progresslogger.info("Download playlist")
-            playlist = self.get_playlist(video_url)
-            progresslogger.change_size(len(playlist))
-            for url in playlist:
-                downloaded.append(self.download_mp3(url))
-                progresslogger.__iadd__(1)
+            downloaded.extend(self.download_playlist(video_url))
         else:
-            downloaded.append(self.download_mp3(video_url))
+            downloaded.append(self.download_song(video_url))
         return downloaded
 
-    def download_mp3(self, video_url=None):
+    def download_playlist(self, playlist_url):
+        downloaded = []
+        progresslogger.info("Download playlist")
+        playlist = self.get_playlist(playlist_url)
+        progresslogger.change_size(len(playlist))
+        for url in playlist:
+            downloaded.append(self.download_song(url))
+            progresslogger.__iadd__(1)
+        return downloaded
+
+    def download_song(self, video_url=None):
         """Download video from youtube and convert to mp3 format.
 
         :param video_url: Url to youtube video
         :return: filename?
         """
-        url_info = self.get_url_info(video_url)
+        if not self.is_url_available(video_url):
+            return ""
         try:
             filename = self.get_title(video_url)
             progresslogger.info(filename)

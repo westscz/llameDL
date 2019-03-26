@@ -33,9 +33,14 @@ To download song from bookmarks file
 
     llamedl bookmarks
     
+<p align="center"><img src="/media/bookmarks-demo.gif?raw=true"/></p>
+
+
 To download one song or playlist
 
     llamedl playlist
+    
+<p align="center"><img src="/media/playlist-demo.gif?raw=true"/></p>
 
 ## Tagger
 

@@ -2,7 +2,6 @@
     llamedl.tagger.py
     ~~~~~~~~~~~~~~~~~~~
 """
-import argparse
 import os
 import time
 
@@ -158,7 +157,8 @@ class TaggerFire:
 
     @staticmethod
     def parse_args(args, namespace=None):
-        parser = argparse.ArgumentParser(prog="LlameTagger")
+        """"""
+        # parser = argparse.ArgumentParser(prog="LlameTagger")
         # parser.add_argument('path',
         #                     help='Path to directory with mp3 files')
         # parser.add_argument('-f', '--force',

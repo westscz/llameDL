@@ -19,9 +19,9 @@ class TestNetscapeFileUrl(unittest.TestCase):
             <DL><p>
                 <DT><H3 ADD_DATE="1547490253" LAST_MODIFIED="1553507973">Music</H3>
                 <DL><p>
-                    <DT><A HREF="https://soundcloud.com/meszi/meszi1902" ADD_DATE="1552382251" ICON="data:image/png;base64,">MESZI live at Club Holidays, Orchowo (2019.02.23), Meszi</A>
-                    <DT><A HREF="https://www.youtube.com/watch?v=R_uS0aT0bG8" ADD_DATE="1553262516" ICON="data:image/png;base64,">Infected Mushroom - Guitarmass - YouTube</A>
-                    <DT><A HREF="https://www.youtube.com/watch?v=ceYKKNXFpSE" ADD_DATE="1553249515" ICON="data:image/png;base64,">Infected Mushroom &amp; Bliss - Bliss on Mushrooms (feat. Miyavi) [Monstercat Release] - YouTube</A>
+                    <DT><A HREF="https://soundcloud.com/meszi/meszi1902">MESZI live at Club Holidays, Orchowo (2019.02.23), Meszi</A>
+                    <DT><A HREF="https://www.youtube.com/watch?v=R_uS0aT0bG8">Infected Mushroom - Guitarmass - YouTube</A>
+                    <DT><A HREF="https://www.youtube.com/watch?v=ceYKKNXFpSE">Infected Mushroom &amp; Bliss - Bliss on Mushrooms (feat. Miyavi)</A>
                 </DL><p>
             </DL><p>
         </DL><p>
@@ -36,21 +36,20 @@ class TestNetscapeFileUrl(unittest.TestCase):
                 "type": "bookmark",
                 "url": "https://soundcloud.com/meszi/meszi1902",
                 "title": "MESZI live at Club Holidays, Orchowo (2019.02.23), Meszi",
-                "add_date": "1552382251",
-                "icon": "data:image/png;base64,",
+                "add_date": None,
+                "icon": None,
             },
             {
-                "add_date": "1553262516",
-                "icon": "data:image/png;base64,",
+                "add_date": None,
+                "icon": None,
                 "title": "Infected Mushroom - Guitarmass - YouTube",
                 "type": "bookmark",
                 "url": "https://www.youtube.com/watch?v=R_uS0aT0bG8",
             },
             {
-                "add_date": "1553249515",
-                "icon": "data:image/png;base64,",
-                "title": "Infected Mushroom & Bliss - Bliss on Mushrooms (feat. Miyavi) "
-                "[Monstercat Release] - YouTube",
+                "add_date": None,
+                "icon": None,
+                "title": "Infected Mushroom & Bliss - Bliss on Mushrooms (feat. Miyavi)",
                 "type": "bookmark",
                 "url": "https://www.youtube.com/watch?v=ceYKKNXFpSE",
             },

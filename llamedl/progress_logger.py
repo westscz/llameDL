@@ -12,7 +12,7 @@ class ProgressLogger:
         self.logger.set_description(msg)
 
     def change_size(self, size):
-        self.logger.total += size
+        self.logger.total = size
 
     def __iadd__(self, other):
         self.logger.update(n=other)

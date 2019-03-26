@@ -14,11 +14,7 @@ LOGGER = create_logger("LlameDL")
 
 class LlameDLFire:
     """
-     _     _                      ____  _
-    | |   | | __ _ _ __ ___   ___|  _ \| |
-    | |   | |/ _` | '_ ` _ \ / _ \ | | | |
-    | |___| | (_| | | | | | |  __/ |_| | |___
-    |_____|_|\__,_|_| |_| |_|\___|____/|_____|
+    LlameDL
 
     Download your music from URLs
     Use -- --help flag for more information
@@ -44,11 +40,9 @@ class LlameDLFire:
         Download music from url
 
         :param url: Playlist url
-        :return:
         """
         provider = UserUrl(url)
-        downloaded_files = self._download_engine.download(provider)
-        self._tag_engine.add_tags_to_files(downloaded_files)
+        self._download(provider)
 
     def browser(self, browser, folder_name="Music", user="Default"):
         """
@@ -57,7 +51,6 @@ class LlameDLFire:
         :param browser: Type of url provider, available: Chrome
         :param folder_name: Folder name in bookmarks
         :param user: Browser user
-        :return:
         """
         provider = self._providers_map.get(browser.lower(), None)
         if provider is None:
@@ -67,24 +60,29 @@ class LlameDLFire:
             )
             return
         provider = provider("", user, folder_name)
+        self._download(provider)
+
+    def bookmarks(self, path, folder_name="Music"):
+        """
+        Download music from urls based on bookmarks file in Netscape format.
+        More information here: https://msdn.microsoft.com/en-us/ie/aa753582(v=vs.94)
+
+        :param path: Path to bookmarks file in Netscape format
+        :param folder_name: Folder name in bookmarks
+        """
+        provider = NetscapeFileUrl(path, folder_name)
+        self._download(provider)
+
+    def _download(self, provider):
+        """
+        Download and tag downloaded files
+        :param provider: Url provider
+        """
         LOGGER.info("Downloading start")
         downloaded_files = self._download_engine.download(provider)
         LOGGER.info("Downloading done, tagging start")
         self._tag_engine.add_tags_to_files(downloaded_files)
         LOGGER.info("Tagging done")
-
-    def bookmark(self, path, folder_name="Music"):
-        """
-        Download music from urls based on bookmark file in Netscape format.
-        More information here: https://msdn.microsoft.com/en-us/ie/aa753582(v=vs.94)
-
-        :param path: Path to bookmarks file in Netscape format
-        :param folder_name: Folder name in bookmarks
-        :return:
-        """
-        provider = NetscapeFileUrl(path, folder_name)
-        downloaded_files = self._download_engine.download(provider)
-        self._tag_engine.add_tags_to_files(downloaded_files)
 
     def help(self):
         print(self.__doc__)

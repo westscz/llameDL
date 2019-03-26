@@ -18,7 +18,7 @@ class TestChromeUrls(unittest.TestCase):
                                     "url": "https://www.youtube.com/watch?v=R_uS0aT0bG8",
                                 },
                                 {
-                                    "name": "Infected Mushroom & Bliss - Bliss on Mushrooms (feat. Miyavi) [Monstercat Release] - YouTube",
+                                    "name": "Infected Mushroom & Bliss - Bliss on Mushrooms (feat. Miyavi)",
                                     "type": "url",
                                     "url": "https://www.youtube.com/watch?v=ceYKKNXFpSE",
                                 },
