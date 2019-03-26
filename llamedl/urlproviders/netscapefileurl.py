@@ -32,8 +32,8 @@ class NetscapeFileUrl(BaseUrl):
     def __find_folder_in_bookmarks(self, folder_name, bookmarks):
         for bookmark in bookmarks:
             if (
-                    bookmark.get("type") == "folder"
-                    and bookmark.get(self.url_title_name, None) == folder_name
+                bookmark.get("type") == "folder"
+                and bookmark.get(self.url_title_name, None) == folder_name
             ):
                 return bookmark.get("children")
             elif bookmark.get("type") == "folder":

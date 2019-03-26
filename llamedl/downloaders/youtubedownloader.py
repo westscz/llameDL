@@ -117,7 +117,7 @@ class YouTubeDownloader:
                 if not ydl.download([video_url]):
                     pass
                     LOGGER.debug('"%s" Downloaded correctly!', filename)
-                return filename
+                return filename + ".mp3"
         except youtube_dl.utils.DownloadError:
             return ""
 

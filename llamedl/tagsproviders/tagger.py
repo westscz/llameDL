@@ -5,7 +5,6 @@
 import os
 import time
 
-import fire
 from mutagen.easyid3 import EasyID3
 from mutagen.id3 import APIC, ID3, ID3NoHeaderError
 from tqdm import tqdm
@@ -50,7 +49,7 @@ class Tagger:
         :return:
         """
         LOGGER.debug(f'Process "{filename}"')
-        filepath = os.path.join(folder_path, filename + ".mp3")
+        filepath = os.path.join(folder_path, filename)
         audio = self.get_id3_object(filepath)
         if audio.get("genre", False) and not force:
             return None
@@ -136,45 +135,3 @@ class Tagger:
             )
         audio.save()
         return True
-
-
-class TaggerFire:
-    def __init__(self):
-        pass
-
-    def main(self):
-        """TBD.
-
-        :param folder_path:
-        :return:
-        """
-        # self.parse_args(sys.argv[1:], self)
-        # self.load_filters()
-        # files_list = os.listdir(self.path)
-        # for file in tqdm(files_list):
-        #     filename = os.path.splitext(file)[0]
-        #     self.add_tags_to_file(filename, self.path, self.cover_path, self.force)
-
-    @staticmethod
-    def parse_args(args, namespace=None):
-        """"""
-        # parser = argparse.ArgumentParser(prog="LlameTagger")
-        # parser.add_argument('path',
-        #                     help='Path to directory with mp3 files')
-        # parser.add_argument('-f', '--force',
-        #                     help='Force flag, add tagsproviders even if file contains tagsproviders')
-        # parser.add_argument('-c', '--cover_path',
-        #                     help='Path to album cover, if album cover should be added')
-        # parser.add_argument('-w', '--default_whitelist',
-        #                     help='Use default whitelist, default=True')
-        # parser.add_argument('-p', '--whitelist_path',
-        #                     help='Path to txt file with whitelisted tagsproviders')
-        # return parser.parse_args(args, namespace=namespace)
-
-
-def tagger_cli():
-    fire.Fire(TaggerFire)
-
-
-if __name__ == "__main__":
-    tagger_cli()
