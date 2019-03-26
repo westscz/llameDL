@@ -1,4 +1,4 @@
-image: 3.7.2-alpine3.9
+image: Python 3.7.3
 
 stages:
   - test
