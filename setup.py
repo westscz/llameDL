@@ -16,8 +16,8 @@ setup(
     include_package_data=True,
     entry_points={
         "console_scripts": [
-            "llamedl = llamedl.__main__:llamedl_cli",
-            "llametagger = llamedl.tagsproviders.tagger:tagger_cli",
+            "llamedl = llamedl.llamedl_:llamedl_cli",
+            "llametagger = llamedl.llamedltagger:tagger_cli",
         ]
     },
     packages=["llamedl", "tests"],

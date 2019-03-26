@@ -2,7 +2,7 @@ import os
 import tempfile
 import unittest
 
-from llamedl.__main__ import LlameDLFire
+from llamedl.llamedl import LlameDLFire
 from tests.utils import create_netscape_bookmarks_file, create_chrome_bookmarks_file
 
 
