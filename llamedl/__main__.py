@@ -44,7 +44,7 @@ class LlameDLFire:
         provider = UserUrl(url)
         self._download(provider)
 
-    def browser(self, browser, folder_name="Music", user="Default"):
+    def browser(self, browser, folder_name="Music", user="Default", bookmarks_path=""):
         """
         Download music from urls based on browser bookmarks
 
@@ -59,7 +59,7 @@ class LlameDLFire:
                 "Please add issue on github and use 'llamedl file' option instead"
             )
             return
-        provider = provider("", user, folder_name)
+        provider = provider(bookmarks_path, user, folder_name)
         self._download(provider)
 
     def bookmarks(self, path, folder_name="Music"):
