@@ -1,10 +1,11 @@
-"""
-    tests.utill
-    ~~~~~~~~~~~~~
-"""
 import unittest
-from llamedl.utill import remove_descriptions, change_string_to_tags, \
-    capitalize_first_char, create_filename
+
+from llamedl.utill import (
+    capitalize_first_char,
+    change_string_to_tags,
+    create_filename,
+    remove_descriptions,
+)
 
 
 class Test(unittest.TestCase):
@@ -22,11 +23,11 @@ class Test(unittest.TestCase):
 
     def test_change_string_to_tags__artist_and_title(self):
         result = change_string_to_tags("foo - bar")
-        self.assertDictEqual({'artist': 'Foo', 'title': 'Bar'}, result)
+        self.assertDictEqual({"artist": "Foo", "title": "Bar"}, result)
 
     def test_change_string_to_tags__only_title(self):
         result = change_string_to_tags("foobar")
-        self.assertDictEqual({'artist': 'Unknown', 'title': 'Foobar'}, result)
+        self.assertDictEqual({"artist": "Unknown", "title": "Foobar"}, result)
 
     def test_capitalize_first_char__first_char_low(self):
         result = capitalize_first_char("fooBar")
@@ -47,7 +48,3 @@ class Test(unittest.TestCase):
     def test_create_filename__small_letters(self):
         result = create_filename("foo - bar")
         self.assertEqual("Foo - Bar", result)
-
-
-if __name__ == '__main__':
-    unittest.main()

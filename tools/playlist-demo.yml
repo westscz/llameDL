@@ -1,0 +1,169 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash
+  
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /home/jarek/Projects/llameDL
+  
+  # Export additional ENV variables
+  env:
+    recording: true
+  
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 120
+  
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 8
+  
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+  
+  # Quality
+  # 1 - 100
+  quality: 100
+  
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+  
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+  
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: LlameDL
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+  
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+  
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+  
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+  
+  # The size of the font
+  fontSize: 16
+  
+  # The height of lines
+  lineHeight: 1
+  
+  # The spacing between letters
+  letterSpacing: 0
+  
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+  
+# Records, feel free to edit them
+records:
+  - delay: 519
+    content: "\e[31mjarek\e(B\e[0m at \e[33mK53SV\e(B\e[0m in \e[32m~/\e[34m >\e(B\e[0m "
+  - delay: 1626
+    content: l
+  - delay: 152
+    content: l
+  - delay: 104
+    content: a
+  - delay: 152
+    content: m
+  - delay: 440
+    content: e
+  - delay: 384
+    content: d
+  - delay: 176
+    content: l
+  - delay: 240
+    content: ' '
+  - delay: 1441
+    content: p
+  - delay: 207
+    content: l
+  - delay: 80
+    content: a
+  - delay: 240
+    content: 'y'
+  - delay: 184
+    content: l
+  - delay: 176
+    content: i
+  - delay: 112
+    content: s
+  - delay: 192
+    content: t
+  - delay: 192
+    content: ' '
+  - delay: 1827
+    content: "https://www.youtube.com/playlist?list=PLzvbpNIDz1ocK8EOVjQaUOpP-Pn4y7fGJ"
+  - delay: 3069
+    content: "\r\n"
+  - delay: 732
+    content: "Downloading start (INFO)\r\n\rDownload start:   0%|                                                                             | 0/1 [00:00<?, ?it/s]"
+  - delay: 3864
+    content: "\rDownload playlist:   0%|                                                                          | 0/1 [00:03<?, ?it/s]"
+  - delay: 1512
+    content: "\rFISHER - Losing It:   0%|                                                                         | 0/2 [00:05<?, ?it/s]"
+  - delay: 1512
+    content: "\rFISHER - Losing It:  50%|████████████████████████████████▌                                | 1/2 [00:06<00:06,  6.89s/it]"
+  - delay: 1343
+    content: "\rAlok & Timmy Trumpet - Metaphor:  50%|██████████████████████████                          | 1/2 [00:08<00:06,  6.89s/it]"
+  - delay: 1432
+    content: "\rAlok & Timmy Trumpet - Metaphor: 100%|████████████████████████████████████████████████████| 2/2 [00:09<00:00,  5.65s/it]\rAlok & Timmy Trumpet - Metaphor:  50%|██████████████████████████                          | 1/2 [00:09<00:09,  9.66s/it]\r\nDownloading done, tagging start (INFO)\r\n\rTagger start:   0%|                                                                               | 0/2 [00:00<?, ?it/s]\rFISHER - Losing It:   0%|                                                                         | 0/2 [00:00<?, ?it/s]\rAlok & Timmy Trumpet - Metaphor:   0%|                                                            | 0/2 [00:00<?, ?it/s]"
+  - delay: 3967
+    content: "\rAlok & Timmy Trumpet - Metaphor: 100%|████████████████████████████████████████████████████| 2/2 [00:03<00:00,  1.99s/it]\r\nTagging done (INFO)\r\n"
+  - delay: 2000
+    content: "\r\n"
