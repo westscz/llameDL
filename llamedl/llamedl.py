@@ -80,8 +80,8 @@ class LlameDLFire:
         """
         LOGGER.info("Downloading start")
         downloaded_files = self._download_engine.download(provider)
-        print(downloaded_files)
         LOGGER.info("Downloading done, tagging start")
+        print(downloaded_files)
         self._tag_engine.add_tags_to_files(downloaded_files)
         LOGGER.info("Tagging done")
 

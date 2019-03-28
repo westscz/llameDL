@@ -20,6 +20,7 @@ class Downloader:
         for url in url_gen:
             progresslogger.push_logger(url_gen)
             filename = self._download_song(url)
+            print(filename)
             downloaded_urls.extend(filename)
         url_gen.set_description("Download end")
         return downloaded_urls
