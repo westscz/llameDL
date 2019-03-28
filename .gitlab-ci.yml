@@ -24,4 +24,4 @@ cli:
   stage: deploy
   script:
     - which llamedl
-    - which llamedltagger
+    - which llametagger
