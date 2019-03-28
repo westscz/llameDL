@@ -1,31 +1,30 @@
 checks:
-    python:
-        code_rating: true
-        duplicate_code: true
+  python:
+    code_rating: true
+    duplicate_code: true
 build:
-    nodes:
-        analysis:
-            project_setup:
-                override:
-                    - 'true'
-            tests:
-                override:
-                    - py-scrutinizer-run
-                    -
-                        command: pylint-run
-                        use_website_config: true
-            environment:
-                node:
-                    version: 6.0.0
-        tests:
-            dependencies:
-                before:
-                    - pip install -r requirements-dev.txt
+  nodes:
+    analysis:
+      project_setup:
+        override:
+          - 'true'
+      tests:
+        override:
+          - py-scrutinizer-run
+          - command: pylint-run
+            use_website_config: true
+      environment:
+        node:
+          version: 6.0.0
+    tests:
+      dependencies:
+        before:
+          - pip install -r requirements/requirements-dev.txt
 
 filter:
-    excluded_paths:
-        - '*/tests/*'
-    dependency_paths:
-        - 'lib/*'
+  excluded_paths:
+    - '*/tests/*'
+  dependency_paths:
+    - 'lib/*'
 tools:
-    external_code_coverage: true
+  external_code_coverage: true
