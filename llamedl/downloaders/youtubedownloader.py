@@ -118,7 +118,10 @@ class YouTubeDownloader:
                     pass
                     LOGGER.debug('"%s" Downloaded correctly!', filename)
                 return filename + ".mp3"
-        except youtube_dl.utils.DownloadError:
+        except youtube_dl.utils.DownloadError as e:
+            LOGGER.debug(f"Error on download {video_url}: {str(e)}")
+            import traceback
+            LOGGER.debug(traceback.format_exc())
             return ""
 
     def __update_ydl_template(self, ydl, filename, format="mp3"):
