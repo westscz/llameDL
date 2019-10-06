@@ -22,7 +22,9 @@ class BaseBrowser(BaseUrl):
         :param folder_name: Folder name in chrome bookmarks
         :return:
         """
-        return self.__get_urls_from_folder_from_given_source(folder_name, "youtube")
+        return self.__get_urls_from_folder_from_given_source(
+            folder_name, "youtube"
+        ) + self.__get_urls_from_folder_from_given_source(folder_name, "soundcloud")
 
     def get_folder(self, folder_name):
         """
@@ -65,6 +67,6 @@ class BaseBrowser(BaseUrl):
 
     def _is_searched_folder(self, bookmark, folder_name):
         return (
-                self._is_folder(bookmark)
-                and bookmark.get(self.url_title_name, None) == folder_name
+            self._is_folder(bookmark)
+            and bookmark.get(self.url_title_name, None) == folder_name
         )

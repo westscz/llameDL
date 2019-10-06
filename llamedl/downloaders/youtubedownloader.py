@@ -121,6 +121,7 @@ class YouTubeDownloader:
         except youtube_dl.utils.DownloadError as e:
             LOGGER.debug(f"Error on download {video_url}: {str(e)}")
             import traceback
+
             LOGGER.debug(traceback.format_exc())
             return ""
 

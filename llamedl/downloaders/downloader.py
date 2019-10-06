@@ -2,6 +2,7 @@ import os
 
 from tqdm import tqdm
 
+from llamedl.downloaders.soundclouddownloader import SoundcloudDownloader
 from llamedl.downloaders.youtubedownloader import YouTubeDownloader
 from llamedl.progress_logger import progresslogger
 
@@ -9,7 +10,10 @@ from llamedl.progress_logger import progresslogger
 class Downloader:
     def __init__(self, download_directory):
         self._download_directory = download_directory
-        self.downloaders_map = {"youtube": YouTubeDownloader(self.download_directory)}
+        self.downloaders_map = {
+            "youtube": YouTubeDownloader(self.download_directory),
+            "soundcloud": SoundcloudDownloader(self.download_directory),
+        }
 
     def download(self, provider):
         downloaded_urls = []
