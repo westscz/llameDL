@@ -37,7 +37,7 @@ class TestLlameDL(unittest.TestCase):
         """
         file_path = create_netscape_bookmarks_file(self.data)
         self.obj.bookmarks(file_path, "Music")
-        expected = ['Infected Mushroom - Guitarmass.mp3']
+        expected = ["Infected Mushroom - Guitarmass.mp3"]
         result = os.listdir(self.dir_path)
         self.assertListEqual(expected, result)
 
@@ -73,6 +73,6 @@ class TestLlameDL(unittest.TestCase):
         }
         file_path = create_chrome_bookmarks_file(self.data)
         self.obj.browser("Chrome", "Music", bookmarks_path=file_path)
-        expected = ['Infected Mushroom - Guitarmass.mp3']
+        expected = ["Infected Mushroom - Guitarmass.mp3"]
         result = os.listdir(self.dir_path)
         self.assertListEqual(expected, result)

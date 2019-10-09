@@ -14,7 +14,6 @@ matrix:
     python: "3.7-dev"
     python: "3.8-dev"
 install:
-  - pip install -r requirements/requirements-prod.txt
   - pip install -r requirements/requirements-dev.txt
 script:
   - pytest

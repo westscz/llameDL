@@ -16,11 +16,12 @@ unit-tests:
 
 integration-tests:
   stage: test
+  image: 8675309/ffmpy
   script:
-    - echo Hello
+    - pytest tests/e2e/*.py
 
 cli:
   stage: deploy
   script:
     - which llamedl
-    - which llamedltagger
+    - which llametagger

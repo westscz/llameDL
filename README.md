@@ -4,13 +4,14 @@
 <p align="center">YouTube to MP3 converter with adding tags</p>
 
 ![LlameDL Version](https://img.shields.io/badge/llameDL-0.2.0-blue.svg)
+![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)
 [![Build Status](https://travis-ci.org/westscz/llameDL.svg?branch=master)](https://travis-ci.org/westscz/llameDL)
-![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![Code Coverage](https://scrutinizer-ci.com/g/westscz/llameDL/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/westscz/llameDL/?branch=master)
 [![Requirements Status](https://requires.io/github/westscz/llameDL/requirements.svg?branch=master)](https://requires.io/github/westscz/llameDL/requirements/?branch=master)
 [![Scrutinize Status](https://scrutinizer-ci.com/g/westscz/llameDL/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/westscz/llameDL/)
-
+[![GitlabCI-pipe](https://gitlab.com/piszczala/llameDL/badges/master/pipeline.svg)](https://gitlab.com/piszczala/llameDL)
+[![GitlabCI-cov](https://gitlab.com/piszczala/llameDL/badges/master/coverage.svg)](https://gitlab.com/piszczala/llameDL)
 
 
 ## Install
