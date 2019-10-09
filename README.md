@@ -6,7 +6,6 @@
 ![LlameDL Version](https://img.shields.io/badge/llameDL-0.2.1-blue.svg)
 ![Python Version](https://img.shields.io/badge/python-3.7%2B-blue.svg)
 [![GitlabCI-pipe](https://gitlab.com/piszczala/llameDL/badges/master/pipeline.svg)](https://gitlab.com/piszczala/llameDL)
-[![GitlabCI-cov](https://gitlab.com/piszczala/llameDL/badges/master/coverage.svg)](https://gitlab.com/piszczala/llameDL)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![Code Coverage](https://scrutinizer-ci.com/g/westscz/llameDL/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/westscz/llameDL/?branch=master)
 [![Requirements Status](https://requires.io/github/westscz/llameDL/requirements.svg?branch=master)](https://requires.io/github/westscz/llameDL/requirements/?branch=master)
