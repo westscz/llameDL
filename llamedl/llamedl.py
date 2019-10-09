@@ -2,12 +2,12 @@ import os
 
 import fire
 
-from llamedl.downloaders.downloader import Downloader
-from llamedl.tagsproviders.tagger import Tagger
-from llamedl.urlproviders.chromeurls import ChromeUrl
-from llamedl.urlproviders.netscapefileurl import NetscapeFileUrl
-from llamedl.urlproviders.userurl import UserUrl
-from llamedl.utill import create_logger
+from .downloaders.downloader import Downloader
+from .tagsproviders.tagger import Tagger
+from .urlproviders.chromeurls import ChromeUrl
+from .urlproviders.netscapefileurl import NetscapeFileUrl
+from .urlproviders.userurl import UserUrl
+from .utill import create_logger
 
 LOGGER = create_logger("LlameDL")
 
