@@ -46,12 +46,11 @@ def remove_descriptions(string):
     :param string:
     :return:
     """
-    reg = r"[\[\(][^\[\(]*(oficjal|official|lyric|radio|video|audio|http|pl|hd|nowo)[^\[\(]*[\]\)]"
+    reg = r"[\[\(][^\[\(]*(prod|live|oficjal|free|hq|official|lyric|radio|video|audio|http|pl|hd|nowo)[^\[\(]*[\]\)]"
     while re.search(reg, string, re.IGNORECASE):
         result = re.search(reg, string, re.IGNORECASE)
         string = string.replace(result.group(), "")
     return string.rstrip(" ")
-
 
 def change_string_to_tags(string):
     """
@@ -59,14 +58,14 @@ def change_string_to_tags(string):
     :param string:
     :return:
     """
-    string = string.replace("/", "")
-    reg = r"(?P<artist>.*) [--–] (?P<title>.*)"
+    string = string.replace("/", " ").replace('"', "")
+    reg = r"(?P<artist>.*) [---—–] (?P<title>.*)"
     result = re.search(reg, string)
     if result:
         artist, title = result.groups()
         return {
             "artist": capitalize_first_char(artist),
-            "title": capitalize_first_char(title),
+            "title": capitalize_first_char(title).title(),
         }
     return {"artist": "Unknown", "title": capitalize_first_char(string)}
 
