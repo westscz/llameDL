@@ -12,7 +12,7 @@ with open('requirements/requirements-prod.txt') as f:
 
 setup(
     name="LlameDL",
-    version="0.2.0",
+    version="0.2.1",
     author="Jaroslaw Piszczala",
     author_email="jaroslawpiszczala@gmail.com",
     description="Download music from YouTube and add tags",

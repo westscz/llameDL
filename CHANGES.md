@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## v0.2.0 2019-03-27
+## [Unreleased]
+### Added
+- Filter new keywords from title
+- Remove quotation mark from title
+
+### Changed
+- Path to whitelist
+- Entry points path
+
+## [0.2.0] - 2019-03-27
 ### Added
 - New abstraction layer for URL providers
     - User provider URL
@@ -27,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Getting urls from Chrome is not default action anymore
 - Structure of tests directory
 
-## v0.1.0 2018-04-15
+## [0.1.0] - 2018-04-15
 ### Added
 - CLI for llameDL and llameTagger
 - Setup.py with entry points
@@ -36,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Regex for youtube videos titles
 - Scrutinizer setup
 
-## v0.0.3 2018-04-09
+## [0.0.3] - 2018-04-09
 ### Added
 - Docstring to class methods
 - Whitelist file with whitelisted tags
@@ -53,7 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Support for python 2.7 (only python 3.5+ is supported)
 
-## v0.0.2 2018-02-15
+## [0.0.2] - 2018-02-15
 ### Added
 - Travis CI
 - Tags whitelist
@@ -61,7 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Tags searching from LastFM to MusicBrainz
 
-## 0.0.1 - 2018-02-02
+## [0.0.1] - - 2018-02-02
 ### Added
 - README with install informations
 - Requirements file for Python requirements
