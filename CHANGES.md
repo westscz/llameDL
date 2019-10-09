@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Filter new keywords from title
 - Remove quotation mark from title
 - Soundcloud downloader
-- New architecture prototype
 
 ### Changed
 - Path to whitelist
 - Entry points path
+
+### Removed
+- Settings for vscode
 
 ## [0.2.0] - 2019-03-27
 ### Added
