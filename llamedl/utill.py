@@ -52,6 +52,7 @@ def remove_descriptions(string):
         string = string.replace(result.group(), "")
     return string.rstrip(" ")
 
+
 def change_string_to_tags(string):
     """
     Get string in format 'artist - title' and returns dictionary with 'artist' and 'title' as keys

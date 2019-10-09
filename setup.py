@@ -2,11 +2,12 @@ import os
 
 from setuptools import setup
 
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-with open('requirements/requirements-prod.txt') as f:
+with open("requirements/requirements-prod.txt") as f:
     required = f.read().splitlines()
 
 
