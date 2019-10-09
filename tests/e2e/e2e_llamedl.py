@@ -29,7 +29,6 @@ class TestLlameDL(unittest.TestCase):
             <DL><p>
                 <DT><H3 ADD_DATE="1547490253" LAST_MODIFIED="1553507973">Music</H3>
                 <DL><p>
-                    <DT><A HREF="https://soundcloud.com/meszi/meszi1902">MESZI live at Club Holidays, Orchowo (2019.02.23), Meszi</A>
                     <DT><A HREF="https://www.youtube.com/watch?v=R_uS0aT0bG8">Infected Mushroom - Guitarmass - YouTube</A>
                 </DL><p>
             </DL><p>
@@ -57,9 +56,9 @@ class TestLlameDL(unittest.TestCase):
                                     "url": "https://www.youtube.com/watch?v=R_uS0aT0bG8",
                                 },
                                 {
-                                    "name": "MESZI live at Club Holidays, Orchowo (2019.02.23), Meszi",
+                                    "name": "Underground vibes, zone",
                                     "type": "url",
-                                    "url": "https://soundcloud.com/meszi/meszi1902",
+                                    "url": "https://soundcloud.com/zone12bit/underground-vibes",
                                 },
                             ],
                             "name": "Music",
@@ -73,6 +72,9 @@ class TestLlameDL(unittest.TestCase):
         }
         file_path = create_chrome_bookmarks_file(self.data)
         self.obj.browser("Chrome", "Music", bookmarks_path=file_path)
-        expected = ["Infected Mushroom - Guitarmass.mp3"]
+        expected = [
+            "Infected Mushroom - Guitarmass.mp3",
+            "Zone - Underground Vibes.mp3",
+        ]
         result = os.listdir(self.dir_path)
         self.assertListEqual(expected, result)

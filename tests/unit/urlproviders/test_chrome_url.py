@@ -54,7 +54,9 @@ class TestChromeUrls(unittest.TestCase):
         expected = [
             "https://www.youtube.com/watch?v=R_uS0aT0bG8",
             "https://www.youtube.com/watch?v=ceYKKNXFpSE",
+            "https://soundcloud.com/meszi/meszi1902",
         ]
+        self.assertEqual(3, len(result))
         self.assertListEqual(expected, result)
 
     def test_get_youtube_urls_from_folder__not_exist(self):
