@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Filter new keywords from title
 - Remove quotation mark from title
 - Soundcloud downloader
+- Makefile
 
 ### Changed
 - Path to whitelist
